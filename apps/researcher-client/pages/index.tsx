@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../auth/auth';
 import Link from 'next/link';
+import { firebaseClient } from '../auth/firebase.client';
 
 export function Index() {
   const { user } = useAuth();
 
-  if (user?.uid) {
+  if (user) {
     return (
       <div>
         <p>Authenticated!</p>
-        <p>User id {user.uid}</p>
+        <button onClick={() => firebaseClient.auth().signOut()}>Log out</button>
+
+        <div>
+          <p>Uid </p>
+          <code>{user.uid}</code>
+          <p>Base64 encoded</p>
+          <code>{Buffer.from(user.uid).toString('base64')}</code>
+        </div>
+
+        <div>
+          <p>Refresh token</p>
+          <code>{user.refreshToken}</code>
+          <p>Base64 encoded</p>
+          <code>{Buffer.from(user.refreshToken).toString('base64')}</code>
+        </div>
       </div>
     );
   }
