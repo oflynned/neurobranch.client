@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
+  "defaultProject": "researcher-client",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "@emotion/styled",
+        "linter": "eslint"
+      }
+    }
+  },
+  "projects": {
+    "researcher-client": {
+      "root": "apps/researcher-client",
+      "sourceRoot": "apps/researcher-client",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/researcher-client",
+            "outputPath": "dist/apps/researcher-client"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "researcher-client:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "researcher-client:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "researcher-client:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/researcher-client"],
+          "options": {
+            "jestConfig": "apps/researcher-client/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/researcher-client/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "researcher-client-e2e": {
+      "root": "apps/researcher-client-e2e",
+      "sourceRoot": "apps/researcher-client-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/researcher-client-e2e/cypress.json",
+            "tsConfig": "apps/researcher-client-e2e/tsconfig.e2e.json",
+            "devServerTarget": "researcher-client:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "researcher-client:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/researcher-client-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}
