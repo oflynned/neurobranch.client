@@ -13,7 +13,7 @@ export function Index() {
         <button onClick={() => firebaseClient.auth().signOut()}>Log out</button>
 
         <div>
-          <p>Uid </p>
+          <p>Uid</p>
           <code>{user.uid}</code>
           <p>Base64 encoded</p>
           <code>{Buffer.from(user.uid).toString('base64')}</code>
