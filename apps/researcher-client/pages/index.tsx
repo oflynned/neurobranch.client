@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { firebaseClient } from '../auth/firebase.client';
 
 export function Index() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
 
-  if (user) {
+  if (user && token) {
     return (
       <div>
         <p>Authenticated!</p>
@@ -18,12 +18,11 @@ export function Index() {
           <p>Base64 encoded</p>
           <code>{Buffer.from(user.uid).toString('base64')}</code>
         </div>
-
         <div>
           <p>Refresh token</p>
           <code>{user.refreshToken}</code>
           <p>Base64 encoded</p>
-          <code>{Buffer.from(user.refreshToken).toString('base64')}</code>
+          <code>{Buffer.from(token).toString('base64')}</code>
         </div>
       </div>
     );
