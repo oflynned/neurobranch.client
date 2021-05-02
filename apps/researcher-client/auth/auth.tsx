@@ -2,12 +2,17 @@ import React, { useState, useEffect, useContext, createContext } from 'react';
 import nookies from 'nookies';
 import { firebaseClient } from './firebase.client';
 
-const AuthContext = createContext<{ user: firebaseClient.User | null }>({
+const AuthContext = createContext<{
+  user: firebaseClient.User | null;
+  token: string | null;
+}>({
   user: null,
+  token: null,
 });
 
 export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<firebaseClient.User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -25,6 +30,8 @@ export function AuthProvider({ children }: any) {
       const token = await user.getIdToken();
 
       setUser(user);
+      setToken(token);
+
       nookies.destroy(null, 'token');
       nookies.set(null, 'token', token, { path: '/' });
     });
@@ -42,7 +49,9 @@ export function AuthProvider({ children }: any) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, token }}>
+      {children}
+    </AuthContext.Provider>
   );
 }
 
