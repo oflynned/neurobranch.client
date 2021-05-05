@@ -19,4 +19,6 @@ if (typeof window !== 'undefined' && !firebaseClient.apps.length) {
   (window as any).firebase = firebaseClient;
 }
 
+export type FirebaseUser = firebaseClient.User;
+
 export { firebaseClient };
