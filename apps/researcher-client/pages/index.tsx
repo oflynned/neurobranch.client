@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../auth/auth';
+import React from 'react';
 import Link from 'next/link';
-import { firebaseClient } from '../auth/firebase.client';
+import { useAuth, firebaseClient } from '../auth';
 
 export function Index() {
-  const { user, token } = useAuth();
+  const { user, token, isAuthenticated } = useAuth();
 
-  if (user && token) {
+  if (isAuthenticated) {
     return (
       <div>
         <p>Authenticated!</p>
@@ -20,7 +19,7 @@ export function Index() {
         </div>
         <div>
           <p>Refresh token</p>
-          <code>{user.refreshToken}</code>
+          <code>{token}</code>
           <p>Base64 encoded</p>
           <code>{Buffer.from(token).toString('base64')}</code>
         </div>
