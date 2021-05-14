@@ -1,14 +1,23 @@
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
 import { AppProps } from 'next/app';
-import './styles.css';
-import { AuthProvider } from '../auth';
+import { AuthProvider } from '../providers/auth';
+import { Reset } from 'styled-reset';
 
-function App({ Component, pageProps }: AppProps) {
+import './reset.scss';
+import './app.scss';
+
+const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
+    <>
+      <Reset />
+      <ThemeProvider theme={{}}>
+        <AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
+      </ThemeProvider>
+    </>
   );
-}
+};
 
 export default App;
