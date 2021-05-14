@@ -1,0 +1,97 @@
+@import "apps/researcher-client/styles/global";
+
+.page {
+  display: flex;
+  height: 100vh;
+
+  section.login {
+    flex: 1;
+    align-self: center;
+    background-color: white;
+
+    .intro {
+      width: 33%;
+      max-width: $breakpoint-sd;
+      margin: auto;
+
+      .bolt {
+        @include filterSvg($acapulco-cliffs);
+      }
+
+      .title {
+        margin: $md 0;
+      }
+
+      .subtitle {
+        margin: $md 0 $lg 0;
+      }
+    }
+
+    .roles {
+      width: 100%;
+      margin: auto;
+    }
+
+    .oauth {
+      width: 33%;
+      max-width: $breakpoint-sd;
+      margin: $lg auto;
+
+      button {
+        margin: $xxxs 0;
+      }
+    }
+
+    .divider {
+      margin: $xl auto;
+      width: 66%;
+    }
+
+    .credentials {
+      width: 33%;
+      max-width: $breakpoint-sd;
+      margin: $lg auto;
+
+      .no-account {
+        background: red;
+      }
+
+      button {
+        margin: $xxxs 0;
+      }
+    }
+  }
+
+  section.blurb {
+    flex: 1;
+    display: flex;
+    background-color: rgba($acapulco-cliffs, 0.3);
+
+    .content {
+      margin: auto;
+      text-align: center;
+
+      .cards {
+        background: red;
+        display: flex;
+        margin: auto;
+
+        .front-card {
+          z-index: 10;
+        }
+
+        .back-card {
+          z-index: -10;
+        }
+      }
+
+      .heading {
+        margin-top: $md;
+      }
+
+      .description {
+        margin-top: $xxxs;
+      }
+    }
+  }
+}
