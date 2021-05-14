@@ -1,0 +1,14 @@
+@import "apps/researcher-client/styles/global";
+
+.text {
+  font-family: 'Lato', 'sans-serif';
+  font-weight: bold;
+  font-size: $font-xs;
+  line-height: $font-xs-height;
+  color: $acapulco-cliffs;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
