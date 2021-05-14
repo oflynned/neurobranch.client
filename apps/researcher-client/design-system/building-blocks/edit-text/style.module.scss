@@ -1,0 +1,12 @@
+@import "apps/researcher-client/styles/global";
+
+.edit-text {
+  background-color: red;
+  width: 100%;
+
+  .input-box {
+    height: 2px;
+    width: 100%;
+    border: 1px solid $pelican-bay;
+  }
+}
