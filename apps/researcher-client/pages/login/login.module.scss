@@ -28,7 +28,7 @@
     }
 
     .roles {
-      width: 100%;
+      width: fit-content;
       margin: auto;
     }
 
@@ -65,28 +65,31 @@
   section.blurb {
     flex: 1;
     display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: rgba($acapulco-cliffs, 0.3);
 
     .content {
-      margin: auto;
       text-align: center;
 
       .cards {
-        background: red;
-        display: flex;
-        margin: auto;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
 
-        .front-card {
-          z-index: 10;
+        > :nth-child(1) {
+          z-index: 0;
         }
 
-        .back-card {
-          z-index: -10;
+        > :nth-child(2) {
+          z-index: 10;
+          margin-left: -15%;
+          margin-top: 50%;
         }
       }
 
       .heading {
-        margin-top: $md;
+        margin-top: $lg;
       }
 
       .description {

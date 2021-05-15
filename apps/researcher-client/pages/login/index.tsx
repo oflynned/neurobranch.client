@@ -31,6 +31,30 @@ const redirectOnSignIn = () => {
   window.location.href = '/';
 };
 
+const OnboardingGraphCard = () => {
+  return (
+    <Card>
+      <Image
+        src={'/static/images/onboarding-graph.svg'}
+        width={192}
+        height={192}
+      />
+    </Card>
+  );
+};
+
+const OnboardingSearchCard = () => {
+  return (
+    <Card>
+      <Image
+        src={'/static/images/onboarding-search.svg'}
+        width={192}
+        height={192}
+      />
+    </Card>
+  );
+};
+
 const Login = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -98,23 +122,9 @@ const Login = () => {
       <section className={styles.blurb}>
         <div className={styles.content}>
           <div className={styles.cards}>
-            <div className={styles.backCard}>
-              <Card>
-                <Image
-                  src={'/static/images/onboarding-search.svg'}
-                  width={192}
-                  height={192}
-                />
-              </Card>
-            </div>
-            <div className={styles.frontCard}>
-              <Card>
-                <Image
-                  src={'/static/images/onboarding-graph.svg'}
-                  width={192}
-                  height={192}
-                />
-              </Card>
+            <OnboardingSearchCard />
+            <div className={styles.card}>
+              <OnboardingGraphCard />
             </div>
           </div>
           <div className={styles.heading}>
