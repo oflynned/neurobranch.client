@@ -17,9 +17,8 @@ import {
   FirebaseRepo,
   EmailPasswordLoginButton,
 } from '../../components';
-import styles from './login.module.scss';
+import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
-import { useRouter } from 'next/router';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
