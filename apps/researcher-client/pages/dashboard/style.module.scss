@@ -1,0 +1,14 @@
+.page {
+  width: 100vw;
+  height: 100vh;
+  display: inline-flex;
+
+  .nav {
+    height: 100vh;
+    width: fit-content;
+  }
+
+  .content {
+    flex: 1;
+  }
+}
