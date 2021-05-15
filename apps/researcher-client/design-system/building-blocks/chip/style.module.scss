@@ -8,10 +8,6 @@
 
   &.selected {
     background-color: rgba($acapulco-cliffs, 0.3);
-
-    * {
-      font-weight: bold;
-    }
   }
 
   &:hover {
@@ -20,8 +16,9 @@
   }
 
   .label {
+    padding: $xxxs $md;
+
     * {
-      padding: $xxxs $md;
       color: $acapulco-cliffs;
     }
   }
