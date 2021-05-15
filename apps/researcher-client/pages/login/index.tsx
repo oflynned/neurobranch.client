@@ -9,14 +9,17 @@ import {
   Title,
   Paragraph,
   Heading,
+  ChipGroup,
+  Checkbox,
 } from '../../design-system';
-import { GoogleLoginButton } from '../../components/buttons/oauth/google-login.button';
+import {
+  GoogleLoginButton,
+  FirebaseRepo,
+  EmailPasswordLoginButton,
+} from '../../components';
 import styles from './login.module.scss';
-import { FirebaseRepo } from '../../components/buttons/oauth/firebase.repo';
 import { firebaseClient } from '../../providers/auth/firebase.client';
-import { ChipGroup } from '../../design-system';
-import { EmailPasswordLoginButton } from '../../components/buttons/oauth/email-password.button';
-import { Checkbox } from '../../design-system/building-blocks/checkbox';
+import { useRouter } from 'next/router';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
@@ -68,8 +71,9 @@ const BoldIcon = () => {
 };
 
 const Login = () => {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>(null);
+  const [password, setPassword] = useState<string>(null);
 
   return (
     <div className={styles.page}>
@@ -93,7 +97,11 @@ const Login = () => {
         </div>
 
         <div className={styles.oauth}>
-          <GoogleLoginButton repo={oauthRepo} onSuccess={redirectOnSignIn} />
+          <GoogleLoginButton
+            onClick={() => setIsLoading(true)}
+            repo={oauthRepo}
+            onSuccess={redirectOnSignIn}
+          />
         </div>
 
         <div className={styles.divider}>
@@ -119,13 +127,7 @@ const Login = () => {
           </div>
 
           <div className={styles.rememberMe}>
-            <Checkbox
-              label={'Remember me'}
-              prechecked
-              onCheck={async (check) => {
-                console.log({ check });
-              }}
-            />
+            <Checkbox label={'Remember me'} prechecked />
             <Link>Forgot password?</Link>
           </div>
 
@@ -133,13 +135,13 @@ const Login = () => {
             email={email}
             password={password}
             repo={oauthRepo}
+            onClick={() => setIsLoading(true)}
             onSuccess={redirectOnSignIn}
           />
 
           <div className={styles.noAccount}>
-            <Paragraph>
-              No account yet? <Link>Create one here.</Link>
-            </Paragraph>
+            <Paragraph>No account yet?</Paragraph>
+            <Link>Create one here.</Link>
           </div>
         </div>
       </section>
