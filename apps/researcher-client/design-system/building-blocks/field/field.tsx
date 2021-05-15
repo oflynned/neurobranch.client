@@ -11,7 +11,7 @@ interface Props {
   onTextEntered?: (text) => Promise<void> | void;
 }
 
-export const EditText: FC<Props> = ({
+export const Field: FC<Props> = ({
   type = 'text',
   hint,
   label,
@@ -22,17 +22,19 @@ export const EditText: FC<Props> = ({
   const [value, setValue] = useState<string>('');
 
   return (
-    <div className={styles.editText}>
-      <label htmlFor={id}>
-        <Paragraph>{label}</Paragraph>
-      </label>
+    <div className={styles.field}>
+      {label && (
+        <label htmlFor={id}>
+          <Paragraph>{label}</Paragraph>
+        </label>
+      )}
       <input
         id={id}
         type={type}
         placeholder={hint}
         onFocus={() => setIsActive(true)}
         onBlur={() => setIsActive(false)}
-        className={styles.inputBox}
+        className={`${styles.inputBox} ${isActive && styles.active}`}
         onChange={(event) => {
           setValue(event.target.value);
           onTextEntered(value);
