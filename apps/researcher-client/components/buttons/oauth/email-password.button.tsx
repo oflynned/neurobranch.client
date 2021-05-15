@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Button } from '../../../design-system';
 import { FirebaseRepo } from './firebase.repo';
 import {
-  CredentialSignInErrorException,
+  CredentialSignInException,
   EmailTooShortException,
   PasswordTooShortException,
 } from './exceptions';
@@ -10,7 +10,8 @@ import {
 interface Props {
   email: string;
   password: string;
-  onSuccess: () => void;
+  onClick?: () => Promise<void> | void;
+  onSuccess?: () => Promise<void> | void;
   repo: FirebaseRepo;
 }
 
@@ -19,6 +20,7 @@ export const EmailPasswordLoginButton: FC<Props> = ({
   password,
   repo,
   onSuccess,
+  onClick,
 }) => {
   return (
     <Button
@@ -32,11 +34,13 @@ export const EmailPasswordLoginButton: FC<Props> = ({
           throw new PasswordTooShortException();
         }
 
+        await onClick();
+
         try {
           await repo.signInWithCredentials(email, password);
           onSuccess();
         } catch (e) {
-          throw new CredentialSignInErrorException();
+          throw new CredentialSignInException();
         }
       }}
     />
