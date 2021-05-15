@@ -4,3 +4,6 @@ export * from './buttons';
 export * from './field';
 export * from './text';
 export * from './divider';
+export * from './stack';
+export * from './loading-bar';
+export * from './checkbox';
