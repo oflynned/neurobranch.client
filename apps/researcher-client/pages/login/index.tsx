@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import {
-  EditText,
+  Field,
   Card,
   Divider,
   Link,
@@ -16,6 +16,7 @@ import { FirebaseRepo } from '../../components/buttons/oauth/firebase.repo';
 import { firebaseClient } from '../../providers/auth/firebase.client';
 import { ChipGroup } from '../../design-system';
 import { EmailPasswordLoginButton } from '../../components/buttons/oauth/email-password.button';
+import { Checkbox } from '../../design-system/building-blocks/checkbox';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
@@ -55,6 +56,17 @@ const OnboardingSearchCard = () => {
   );
 };
 
+const BoldIcon = () => {
+  return (
+    <Image
+      className={styles.bolt}
+      src={'/static/images/bolt.svg'}
+      width={48}
+      height={48}
+    />
+  );
+};
+
 const Login = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -63,12 +75,7 @@ const Login = () => {
     <div className={styles.page}>
       <section className={styles.login}>
         <div className={styles.intro}>
-          <Image
-            className={styles.bolt}
-            src={'/static/images/bolt.svg'}
-            width={48}
-            height={48}
-          />
+          <BoldIcon />
 
           <div className={styles.title}>
             <Title>Login</Title>
@@ -90,21 +97,37 @@ const Login = () => {
         </div>
 
         <div className={styles.divider}>
-          <Divider text={'Or sign in by email'} />
+          <Divider text={'Or login with Neurobranch'} />
         </div>
 
         <div className={styles.credentials}>
-          <EditText
-            label={'Email'}
-            hint={'Your email'}
-            onTextEntered={(email) => setEmail(email)}
-          />
+          <div className={styles.email}>
+            <Field
+              label={'Email'}
+              hint={'Your email'}
+              onTextEntered={(email) => setEmail(email)}
+            />
+          </div>
 
-          <EditText
-            label={'Password'}
-            hint={'Your password'}
-            onTextEntered={(password) => setPassword(password)}
-          />
+          <div className={styles.password}>
+            <Field
+              type={'password'}
+              label={'Password'}
+              hint={'Your password'}
+              onTextEntered={(password) => setPassword(password)}
+            />
+          </div>
+
+          <div className={styles.rememberMe}>
+            <Checkbox
+              label={'Remember me'}
+              prechecked
+              onCheck={async (check) => {
+                console.log({ check });
+              }}
+            />
+            <Link>Forgot password?</Link>
+          </div>
 
           <EmailPasswordLoginButton
             email={email}
@@ -114,8 +137,9 @@ const Login = () => {
           />
 
           <div className={styles.noAccount}>
-            <Paragraph>No account?</Paragraph>
-            <Link>Create one here</Link>
+            <Paragraph>
+              No account yet? <Link>Create one here.</Link>
+            </Paragraph>
           </div>
         </div>
       </section>

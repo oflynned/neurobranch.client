@@ -52,8 +52,28 @@
       max-width: $breakpoint-sd;
       margin: $lg auto;
 
-      .no-account {
-        background: red;
+      .email {
+        margin: 0 0 $sm 0;
+      }
+
+      .password {
+        margin: 0 0 $sm 0;
+      }
+
+      .rememberMe {
+        margin: $md 0;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .noAccount {
+        margin-top: $md;
+
+        * {
+          :nth-child(1) {
+            margin-left: $xxxs;
+          }
+        }
       }
 
       button {
