@@ -1,15 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
-import { useAuth, firebaseClient } from '../auth';
+import { useAuth, firebaseClient } from '../providers/auth';
 
 export function Index() {
-  const { user, token, isAuthenticated } = useAuth();
+  const { user, token, isLoading } = useAuth();
 
-  if (isAuthenticated) {
+  if (isLoading) {
+    return <h1>LOADING</h1>;
+  }
+
+  if (!!user && !!token) {
     return (
       <div>
         <p>Authenticated!</p>
-        <button onClick={() => firebaseClient.auth().signOut()}>Log out</button>
+        <button onClick={async () => firebaseClient.auth().signOut()}>
+          Log out
+        </button>
 
         <div>
           <p>Uid</p>
@@ -29,7 +35,7 @@ export function Index() {
 
   return (
     <div>
-      <p>User id n/a</p>
+      <p>Please login</p>
       <Link href={'/login'}>Login</Link>
     </div>
   );

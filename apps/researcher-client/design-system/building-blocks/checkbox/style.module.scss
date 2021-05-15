@@ -1,0 +1,9 @@
+@import "apps/researcher-client/styles/global";
+
+.checkbox {
+  transition: all 0.3s ease;
+
+  input:checked {
+    background-color: $acapulco-cliffs;
+  }
+}

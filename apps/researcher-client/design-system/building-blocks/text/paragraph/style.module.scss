@@ -1,0 +1,10 @@
+@import "apps/researcher-client/styles/global";
+
+.text {
+  display: inline-flex;
+  font-family: 'Lato', 'sans-serif';
+  font-weight: normal;
+  font-size: $font-xs;
+  line-height: $font-xs-height;
+  color: $little-mermaid;
+}
