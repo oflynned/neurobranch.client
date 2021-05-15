@@ -88,6 +88,13 @@
     justify-content: center;
     background-color: rgba($acapulco-cliffs, 0.3);
 
+    .logo {
+      margin: 32px;
+      top: 0;
+      right: 0;
+      position: absolute;
+    }
+
     .content {
       text-align: center;
 

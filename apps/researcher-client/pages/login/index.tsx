@@ -34,6 +34,12 @@ const redirectOnSignIn = () => {
   window.location.href = '/';
 };
 
+const NeurobranchLogo = () => {
+  return (
+    <Image src={'/static/images/neurobranch.png'} width={192} height={92} />
+  );
+};
+
 const OnboardingGraphCard = () => {
   return (
     <Card>
@@ -145,6 +151,10 @@ const Login = () => {
         </div>
       </section>
       <section className={styles.blurb}>
+        <div className={styles.logo}>
+          <NeurobranchLogo />
+        </div>
+
         <div className={styles.content}>
           <div className={styles.cards}>
             <OnboardingSearchCard />
