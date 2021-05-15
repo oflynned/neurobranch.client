@@ -3,7 +3,7 @@ import { Chip } from '../../building-blocks';
 import styles from './style.module.scss';
 
 export type ChipItem = {
-  name: string;
+  label: string;
   id?: string;
   deletable?: boolean;
 };
@@ -19,10 +19,10 @@ export const ChipGroup: FC<Props> = ({ chips, defaultSelection }) => {
 
   return (
     <div className={styles.chipGroup}>
-      {chips.map(({ name, id }, index) => (
+      {chips.map(({ label, id }, index) => (
         <Chip
           key={id ?? index}
-          text={name}
+          text={label}
           selected={selectedChip === index}
           onClick={() => setSelectedChip(index)}
         />

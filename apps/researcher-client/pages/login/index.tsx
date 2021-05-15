@@ -20,10 +20,10 @@ import { EmailPasswordLoginButton } from '../../components/buttons/oauth/email-p
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
   {
-    name: 'Investigator',
+    label: 'Investigator',
   },
   {
-    name: 'Candidate',
+    label: 'Candidate',
   },
 ];
 
