@@ -10,7 +10,6 @@ import {
   Paragraph,
   Heading,
   ChipGroup,
-  Checkbox,
   GoogleLoginButton,
   FirebaseRepo,
   EmailPasswordLoginButton,
@@ -75,6 +74,9 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
+  const [repeatPassword, setRepeatPassword] = useState<string>(null);
+
+  const isInvestigator = accountType === 'INVESTIGATOR';
 
   return (
     <div className={styles.page}>
@@ -88,13 +90,21 @@ const Login = () => {
           />
 
           <div className={styles.title}>
-            <Title>Login</Title>
+            <Title>Register</Title>
           </div>
 
           <div className={styles.subtitle}>
-            <Paragraph>
-              Grow your clinical trial user base and get real-time context.
-            </Paragraph>
+            {isInvestigator ? (
+              <Paragraph>
+                I want to run a clinical trial and care about collecting data
+                for a research-based study.
+              </Paragraph>
+            ) : (
+              <Paragraph>
+                I want to join clinical trials and help the scientific community
+                to understand my ailments better.
+              </Paragraph>
+            )}
           </div>
         </div>
 
@@ -113,7 +123,7 @@ const Login = () => {
 
         <div className={styles.oauth}>
           <GoogleLoginButton
-            label={'Sign in with Google'}
+            label={'Sign up with Google'}
             onClick={() => setIsLoading(true)}
             repo={oauthRepo}
             onSuccess={redirectOnSignIn}
@@ -121,7 +131,7 @@ const Login = () => {
         </div>
 
         <div className={styles.divider}>
-          <Divider text={'Or login with Neurobranch'} />
+          <Divider text={'Or sign up by email'} />
         </div>
 
         <div className={styles.credentials}>
@@ -142,13 +152,19 @@ const Login = () => {
             />
           </div>
 
-          <div className={styles.rememberMe}>
-            <Checkbox label={'Remember me'} />
-            <Link>Forgot password?</Link>
+          <div className={styles.password}>
+            <Field
+              error={'Passwords do not match'}
+              showError={password !== repeatPassword}
+              type={'password'}
+              label={'Confirm password'}
+              hint={'Your password'}
+              onTextEntered={(password) => setRepeatPassword(password)}
+            />
           </div>
 
           <EmailPasswordLoginButton
-            label={'Login'}
+            label={'Register'}
             email={email}
             password={password}
             repo={oauthRepo}
@@ -157,13 +173,13 @@ const Login = () => {
           />
 
           <div className={styles.noAccount}>
-            <Paragraph>No account yet?</Paragraph>
+            <Paragraph>Already have an account?</Paragraph>
             <Link
               onClick={() => {
-                window.location.href = '/register';
+                window.location.href = '/login';
               }}
             >
-              Create one here.
+              Login here.
             </Link>
           </div>
         </div>
@@ -178,7 +194,7 @@ const Login = () => {
         </div>
 
         <div className={styles.content}>
-          {accountType === 'INVESTIGATOR' ? (
+          {isInvestigator ? (
             <CallToAction
               title={'Empower your clinical trials with confidence'}
               subtitle={

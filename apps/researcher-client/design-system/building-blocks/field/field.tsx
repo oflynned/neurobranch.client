@@ -8,7 +8,10 @@ interface Props {
   type?: 'password' | 'text';
   hint: string;
   label?: string;
-  onTextEntered?: (text) => Promise<void> | void;
+  showError?: boolean;
+  error?: string;
+  onTextEntered?: (text: string) => Promise<void> | void;
+  onError?: (error: Error) => Promise<void> | void;
 }
 
 export const Field: FC<Props> = ({
@@ -16,6 +19,8 @@ export const Field: FC<Props> = ({
   hint,
   label,
   onTextEntered,
+  error,
+  showError = false,
 }) => {
   const [id] = useState<string>(v4());
   const [isActive, setIsActive] = useState<boolean>(true);
@@ -24,7 +29,7 @@ export const Field: FC<Props> = ({
   return (
     <div className={styles.field}>
       {label && (
-        <label htmlFor={id}>
+        <label htmlFor={id} className={showError && styles.error}>
           <Paragraph>{label}</Paragraph>
         </label>
       )}
@@ -34,12 +39,17 @@ export const Field: FC<Props> = ({
         placeholder={hint}
         onFocus={() => setIsActive(true)}
         onBlur={() => setIsActive(false)}
-        className={`${styles.inputBox} ${isActive && styles.active}`}
+        className={`${isActive && styles.active} ${showError && styles.error}`}
         onChange={(event) => {
           setValue(event.target.value);
           onTextEntered(value);
         }}
       />
+      {showError && (
+        <div className={styles.error}>
+          <Paragraph>{error}</Paragraph>
+        </div>
+      )}
     </div>
   );
 };

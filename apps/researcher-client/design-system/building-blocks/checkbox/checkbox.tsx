@@ -20,7 +20,7 @@ export const Checkbox: FC<Props> = ({ label, prechecked, onCheck }) => {
         type={'checkbox'}
         defaultChecked={prechecked}
         onChange={(e) => {
-          onCheck(e.target.checked);
+          onCheck && onCheck(e.target.checked);
         }}
       />
       <label htmlFor={id}>

@@ -8,6 +8,7 @@ import {
 } from './exceptions';
 
 interface Props {
+  label: string;
   email: string;
   password: string;
   onClick?: () => Promise<void> | void;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export const EmailPasswordLoginButton: FC<Props> = ({
+  label,
   email,
   password,
   repo,
@@ -24,7 +26,7 @@ export const EmailPasswordLoginButton: FC<Props> = ({
 }) => {
   return (
     <Button
-      text={'Login'}
+      text={label}
       onClick={async () => {
         if (email?.length < 3) {
           throw new EmailTooShortException();
