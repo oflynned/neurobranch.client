@@ -5,6 +5,7 @@ import { FirebaseRepo } from './firebase.repo';
 import { CredentialSignInException } from './exceptions';
 
 interface Props {
+  label: string;
   onClick?: () => Promise<void> | void;
   onSuccess?: () => Promise<void> | void;
   repo: FirebaseRepo;
@@ -12,11 +13,16 @@ interface Props {
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
-export const GoogleLoginButton: FC<Props> = ({ onSuccess, repo, onClick }) => {
+export const GoogleLoginButton: FC<Props> = ({
+  onSuccess,
+  repo,
+  onClick,
+  label,
+}) => {
   return (
     <Button
       icon={'/static/images/google-icon.svg'}
-      text={'Login with Google'}
+      text={label}
       onClick={async () => {
         await onClick();
 
