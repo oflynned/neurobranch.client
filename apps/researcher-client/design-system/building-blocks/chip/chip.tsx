@@ -11,7 +11,7 @@ interface Props {
 export const Chip: FC<Props> = ({ text, onClick, selected = false }) => {
   return (
     <div
-      className={`${styles.chip} ${selected && styles.selected}`}
+      className={`${styles.chip} ${selected ? styles.selected : undefined}`}
       onClick={onClick}
     >
       <div className={styles.label}>

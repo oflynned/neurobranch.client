@@ -17,7 +17,9 @@ type WrapperProps = {
 
 const IconWrapper: FC<WrapperProps> = ({ children, active }) => {
   return (
-    <div className={`${styles.iconWrapper} ${active && styles.active}`}>
+    <div
+      className={`${styles.iconWrapper} ${active ? styles.active : undefined}`}
+    >
       {children}
     </div>
   );

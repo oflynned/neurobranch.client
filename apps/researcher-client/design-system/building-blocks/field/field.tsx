@@ -29,7 +29,7 @@ export const Field: FC<Props> = ({
   return (
     <div className={styles.field}>
       {label && (
-        <label htmlFor={id} className={showError && styles.error}>
+        <label htmlFor={id} className={showError ? styles.error : undefined}>
           <Paragraph>{label}</Paragraph>
         </label>
       )}
@@ -39,7 +39,9 @@ export const Field: FC<Props> = ({
         placeholder={hint}
         onFocus={() => setIsActive(true)}
         onBlur={() => setIsActive(false)}
-        className={`${isActive && styles.active} ${showError && styles.error}`}
+        className={`${isActive ? styles.active : undefined} ${
+          showError ? styles.error : undefined
+        }`}
         onChange={(event) => {
           setValue(event.target.value);
           onTextEntered(value);

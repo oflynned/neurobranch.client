@@ -14,7 +14,7 @@ export const LoadingPage: FC<Props> = ({ children, loading }) => {
           <LoadingIndicator />
         </div>
       )}
-      <div className={loading && styles.blur}>{children}</div>
+      <div className={loading ? styles.blur : undefined}>{children}</div>
     </div>
   );
 };
