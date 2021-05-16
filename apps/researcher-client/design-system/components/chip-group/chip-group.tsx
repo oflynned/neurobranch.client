@@ -28,9 +28,7 @@ export const ChipGroup: FC<Props> = ({ chips, selectedIndex, onSelection }) => {
           selected={selectedChipIndex === index}
           onClick={async () => {
             setSelectedChipIndex(index);
-            if (onSelection) {
-              await onSelection(chips[index], index);
-            }
+            onSelection && onSelection(chips[index], index);
           }}
         />
       ))}
