@@ -166,7 +166,10 @@ const Login = () => {
             <Heading>Empower your clinical trials with confidence</Heading>
           </div>
           <div className={styles.description}>
-            <Paragraph>Empower your clinical trials with confidence</Paragraph>
+            <Paragraph>
+              Enroll groups of sufficiently randomised cohorts into your trial
+              and get the insights you need in real-time.
+            </Paragraph>
           </div>
         </div>
       </section>
