@@ -113,6 +113,7 @@ const Login = () => {
 
         <div className={styles.oauth}>
           <GoogleLoginButton
+            label={'Sign in with Google'}
             onClick={() => setIsLoading(true)}
             repo={oauthRepo}
             onSuccess={redirectOnSignIn}
@@ -147,6 +148,7 @@ const Login = () => {
           </div>
 
           <EmailPasswordLoginButton
+            label={'Login'}
             email={email}
             password={password}
             repo={oauthRepo}
@@ -156,7 +158,13 @@ const Login = () => {
 
           <div className={styles.noAccount}>
             <Paragraph>No account yet?</Paragraph>
-            <Link>Create one here.</Link>
+            <Link
+              onClick={() => {
+                window.location.href = '/register';
+              }}
+            >
+              Create one here.
+            </Link>
           </div>
         </div>
       </section>
