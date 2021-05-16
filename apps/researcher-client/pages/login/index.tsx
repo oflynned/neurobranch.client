@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import Image from 'next/image';
 import {
   Field,
@@ -11,12 +11,10 @@ import {
   Heading,
   ChipGroup,
   Checkbox,
-} from '../../design-system';
-import {
   GoogleLoginButton,
   FirebaseRepo,
   EmailPasswordLoginButton,
-} from '../../components';
+} from '../../design-system';
 import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
 
@@ -30,52 +28,50 @@ const chips: ChipItem[] = [
   },
 ];
 
+type Role = 'INVESTIGATOR' | 'CANDIDATE';
+
 const redirectOnSignIn = () => {
   window.location.href = '/';
 };
 
-const NeurobranchLogo = () => {
-  return (
-    <Image src={'/static/images/neurobranch.png'} width={192} height={92} />
-  );
+type CallToActionProps = {
+  title: string;
+  subtitle: string;
+  backgroundSrc: string;
+  foregroundSrc: string;
 };
 
-const OnboardingGraphCard = () => {
+const CallToAction: FC<CallToActionProps> = ({
+  title,
+  subtitle,
+  foregroundSrc,
+  backgroundSrc,
+}) => {
   return (
-    <Card>
-      <Image
-        src={'/static/images/onboarding-graph.svg'}
-        width={192}
-        height={192}
-      />
-    </Card>
-  );
-};
+    <>
+      <div className={styles.cards}>
+        <Card>
+          <Image src={backgroundSrc} width={192} height={192} />
+        </Card>
 
-const OnboardingSearchCard = () => {
-  return (
-    <Card>
-      <Image
-        src={'/static/images/onboarding-search.svg'}
-        width={192}
-        height={192}
-      />
-    </Card>
-  );
-};
-
-const BoldIcon = () => {
-  return (
-    <Image
-      className={styles.bolt}
-      src={'/static/images/bolt.svg'}
-      width={48}
-      height={48}
-    />
+        <div className={styles.card}>
+          <Card>
+            <Image src={foregroundSrc} width={192} height={192} />
+          </Card>
+        </div>
+      </div>
+      <div className={styles.heading}>
+        <Heading>{title}</Heading>
+      </div>
+      <div className={styles.description}>
+        <Paragraph>{subtitle}</Paragraph>
+      </div>
+    </>
   );
 };
 
 const Login = () => {
+  const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
@@ -84,7 +80,12 @@ const Login = () => {
     <div className={styles.page}>
       <section className={styles.login}>
         <div className={styles.intro}>
-          <BoldIcon />
+          <Image
+            className={styles.bolt}
+            src={'/static/images/bolt.svg'}
+            width={48}
+            height={48}
+          />
 
           <div className={styles.title}>
             <Title>Login</Title>
@@ -98,7 +99,16 @@ const Login = () => {
         </div>
 
         <div className={styles.roles}>
-          <ChipGroup chips={chips} />
+          <ChipGroup
+            chips={chips}
+            onSelection={(chip, index) => {
+              if (index === 0) {
+                setAccountType('INVESTIGATOR');
+              } else {
+                setAccountType('CANDIDATE');
+              }
+            }}
+          />
         </div>
 
         <div className={styles.oauth}>
@@ -132,7 +142,7 @@ const Login = () => {
           </div>
 
           <div className={styles.rememberMe}>
-            <Checkbox label={'Remember me'} prechecked />
+            <Checkbox label={'Remember me'} />
             <Link>Forgot password?</Link>
           </div>
 
@@ -152,22 +162,33 @@ const Login = () => {
       </section>
       <section className={styles.blurb}>
         <div className={styles.logo}>
-          <NeurobranchLogo />
+          <Image
+            src={'/static/images/neurobranch.png'}
+            width={192}
+            height={92}
+          />
         </div>
 
         <div className={styles.content}>
-          <div className={styles.cards}>
-            <OnboardingSearchCard />
-            <div className={styles.card}>
-              <OnboardingGraphCard />
-            </div>
-          </div>
-          <div className={styles.heading}>
-            <Heading>Empower your clinical trials with confidence</Heading>
-          </div>
-          <div className={styles.description}>
-            <Paragraph>Empower your clinical trials with confidence</Paragraph>
-          </div>
+          {accountType === 'INVESTIGATOR' ? (
+            <CallToAction
+              title={'Empower your clinical trials with confidence'}
+              subtitle={
+                'Enroll groups of sufficiently randomised cohorts into your trial and get the insights you need in real-time.'
+              }
+              foregroundSrc={'/static/images/onboarding-graph.svg'}
+              backgroundSrc={'/static/images/onboarding-search.svg'}
+            />
+          ) : (
+            <CallToAction
+              title={'Be a part of advancing scientific research'}
+              subtitle={
+                'Clinical trials provide the basis for the understanding of behaviour and the development of new drugs, biological products and medical devices.'
+              }
+              foregroundSrc={'/static/images/onboarding-doctor.svg'}
+              backgroundSrc={'/static/images/onboarding-laptop.svg'}
+            />
+          )}
         </div>
       </section>
     </div>

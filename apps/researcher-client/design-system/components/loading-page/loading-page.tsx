@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styles from './style.module.scss';
-import { LoadingIndicator } from '../../design-system';
+import { LoadingIndicator } from '../../index';
 
 type Props = {
   loading: boolean;
