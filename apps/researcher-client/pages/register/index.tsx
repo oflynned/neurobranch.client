@@ -77,7 +77,6 @@ const Login = () => {
   const [repeatPassword, setRepeatPassword] = useState<string>(null);
 
   const isInvestigator = accountType === 'INVESTIGATOR';
-  const isMatchingPassword = password === repeatPassword;
 
   return (
     <div className={styles.page}>
@@ -156,7 +155,7 @@ const Login = () => {
           <div className={styles.password}>
             <Field
               error={'Passwords do not match'}
-              hasError={!isMatchingPassword && !!repeatPassword}
+              showError={password !== repeatPassword}
               type={'password'}
               label={'Confirm password'}
               hint={'Your password'}

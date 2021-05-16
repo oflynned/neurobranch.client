@@ -8,9 +8,10 @@ interface Props {
   type?: 'password' | 'text';
   hint: string;
   label?: string;
-  hasError?: boolean;
+  showError?: boolean;
   error?: string;
-  onTextEntered?: (text) => Promise<void> | void;
+  onTextEntered?: (text: string) => Promise<void> | void;
+  onError?: (error: Error) => Promise<void> | void;
 }
 
 export const Field: FC<Props> = ({
@@ -19,7 +20,7 @@ export const Field: FC<Props> = ({
   label,
   onTextEntered,
   error,
-  hasError = false,
+  showError = false,
 }) => {
   const [id] = useState<string>(v4());
   const [isActive, setIsActive] = useState<boolean>(true);
@@ -28,7 +29,7 @@ export const Field: FC<Props> = ({
   return (
     <div className={styles.field}>
       {label && (
-        <label htmlFor={id} className={hasError && styles.error}>
+        <label htmlFor={id} className={showError && styles.error}>
           <Paragraph>{label}</Paragraph>
         </label>
       )}
@@ -38,13 +39,13 @@ export const Field: FC<Props> = ({
         placeholder={hint}
         onFocus={() => setIsActive(true)}
         onBlur={() => setIsActive(false)}
-        className={`${isActive && styles.active} ${hasError && styles.error}`}
+        className={`${isActive && styles.active} ${showError && styles.error}`}
         onChange={(event) => {
           setValue(event.target.value);
           onTextEntered(value);
         }}
       />
-      {hasError && (
+      {showError && (
         <div className={styles.error}>
           <Paragraph>{error}</Paragraph>
         </div>
