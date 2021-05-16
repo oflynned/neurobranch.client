@@ -15,8 +15,9 @@ interface Props {
 }
 
 export const ChipGroup: FC<Props> = ({ chips, selectedIndex, onSelection }) => {
-  const defaultChipIndex = selectedIndex ?? 0;
-  const [selectedChipIndex, setSelectedChipIndex] = useState(defaultChipIndex);
+  const [selectedChipIndex, setSelectedChipIndex] = useState(
+    selectedIndex ?? 0
+  );
 
   return (
     <div className={styles.chipGroup}>
