@@ -1,5 +1,5 @@
 import { Title } from '../../design-system';
-import { NavBar } from '../../components/nav-bar';
+import { NavBar } from '../../design-system/components/nav-bar';
 
 import styles from './style.module.scss';
 

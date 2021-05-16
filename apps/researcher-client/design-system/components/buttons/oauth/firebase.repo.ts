@@ -1,4 +1,4 @@
-import { firebaseClient } from '../../../providers/auth/firebase.client';
+import { firebaseClient } from '../../../../providers/auth/firebase.client';
 import firebase from 'firebase';
 
 type OAuthProvider = firebase.auth.GoogleAuthProvider;

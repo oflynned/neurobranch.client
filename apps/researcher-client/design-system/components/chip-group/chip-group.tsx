@@ -10,12 +10,13 @@ export type ChipItem = {
 
 interface Props {
   chips: ChipItem[];
-  defaultSelection?: string;
+  selectedIndex?: number;
+  onSelection?: (item: ChipItem, index: number) => Promise<void> | void;
 }
 
-export const ChipGroup: FC<Props> = ({ chips, defaultSelection }) => {
-  const defaultChip = defaultSelection ?? chips[0]?.id ?? 0;
-  const [selectedChip, setSelectedChip] = useState(defaultChip);
+export const ChipGroup: FC<Props> = ({ chips, selectedIndex, onSelection }) => {
+  const defaultChipIndex = selectedIndex ?? 0;
+  const [selectedChipIndex, setSelectedChipIndex] = useState(defaultChipIndex);
 
   return (
     <div className={styles.chipGroup}>
@@ -23,8 +24,13 @@ export const ChipGroup: FC<Props> = ({ chips, defaultSelection }) => {
         <Chip
           key={id ?? index}
           text={label}
-          selected={selectedChip === index}
-          onClick={() => setSelectedChip(index)}
+          selected={selectedChipIndex === index}
+          onClick={async () => {
+            setSelectedChipIndex(index);
+            if (onSelection) {
+              await onSelection(chips[index], index);
+            }
+          }}
         />
       ))}
     </div>

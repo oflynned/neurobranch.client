@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button } from '../../../design-system';
+import { Button } from '../../../index';
 import { FirebaseRepo } from './firebase.repo';
 import {
   CredentialSignInException,
