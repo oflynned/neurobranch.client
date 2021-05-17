@@ -1,8 +1,7 @@
 import { FC, useState } from 'react';
 import { Paragraph } from '../text';
-import styles from './style.module.scss';
-
 import { v4 } from 'uuid';
+import styles from './style.module.scss';
 
 type Props = {
   label: string;
