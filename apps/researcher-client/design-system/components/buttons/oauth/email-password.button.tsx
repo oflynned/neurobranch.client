@@ -26,6 +26,7 @@ export const EmailPasswordLoginButton: FC<Props> = ({
 }) => {
   return (
     <Button
+      fill={'MATCH_PARENT'}
       text={label}
       onClick={async () => {
         if (email?.length < 3) {

@@ -7,29 +7,37 @@ import { CredentialSignInException } from './exceptions';
 interface Props {
   label: string;
   onClick?: () => Promise<void> | void;
-  onSuccess?: () => Promise<void> | void;
+  onSignedIn?: (user: firebase.User, token: string) => Promise<void> | void;
   repo: FirebaseRepo;
 }
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
 export const GoogleLoginButton: FC<Props> = ({
-  onSuccess,
+  onSignedIn,
   repo,
   onClick,
   label,
 }) => {
   return (
     <Button
+      fill={'MATCH_PARENT'}
       icon={'/static/images/google-icon.svg'}
       text={label}
       onClick={async () => {
-        await onClick();
+        if (onClick) {
+          await onClick();
+        }
 
         try {
-          await repo.signInWithOAuth(provider);
-          onSuccess();
+          const { user } = await repo.signInWithOAuth(provider);
+          const token = await user.getIdToken(true);
+
+          if (onSignedIn) {
+            await onSignedIn(user, token);
+          }
         } catch (e) {
+          console.log(e);
           throw new CredentialSignInException();
         }
       }}
