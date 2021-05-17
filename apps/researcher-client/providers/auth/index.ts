@@ -1,2 +1,3 @@
-export { useAuth, AuthProvider } from './use-auth.hook';
+export * from './firebase.client';
+export * from './use-firebase.hook';
 export { firebaseClient } from './firebase.client';

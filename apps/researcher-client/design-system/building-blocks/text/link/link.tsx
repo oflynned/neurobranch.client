@@ -1,14 +1,15 @@
+import Link from 'next/link';
 import { FC } from 'react';
 import styles from './style.module.scss';
 
 interface Props {
-  onClick?: () => Promise<void> | void;
+  href?: string;
 }
 
-export const Link: FC<Props> = ({ children, onClick }) => {
+export const AnchorLink: FC<Props> = ({ children, href }) => {
   return (
-    <p onClick={onClick} className={styles.text}>
-      {children}
-    </p>
+    <Link href={href}>
+      <div className={styles.text}>{children}</div>
+    </Link>
   );
 };

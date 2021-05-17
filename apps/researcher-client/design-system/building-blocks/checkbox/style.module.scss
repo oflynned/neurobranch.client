@@ -3,6 +3,10 @@
 .checkbox {
   transition: all 0.3s ease;
 
+  * {
+    display: inline-flex;
+  }
+
   input:checked {
     background-color: $acapulco-cliffs;
   }

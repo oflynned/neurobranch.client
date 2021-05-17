@@ -29,7 +29,7 @@ export const NavBar: FC<Props> = ({ activePage }) => {
   return (
     <nav className={styles.navBar}>
       <div className={styles.icons}>
-        <IconWrapper active={true}>
+        <IconWrapper active={activePage === 'HOME'}>
           <HomeIcon />
         </IconWrapper>
 

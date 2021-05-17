@@ -1,10 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   Field,
   Card,
   Divider,
-  Link,
   ChipItem,
   Title,
   Paragraph,
@@ -14,9 +13,15 @@ import {
   GoogleLoginButton,
   FirebaseRepo,
   EmailPasswordLoginButton,
+  AnchorLink,
 } from '../../design-system';
 import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
+import { gql } from '@apollo/client/core';
+import { useMutation } from '@apollo/client';
+import { getHeaders } from '../../providers/graphql/use-user.hook';
+import { useFirebase } from '../../providers/auth';
+import { useAccount } from '../../providers/auth/use-account.hook';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
@@ -40,6 +45,19 @@ type CallToActionProps = {
   backgroundSrc: string;
   foregroundSrc: string;
 };
+
+const createInvestigatorMutation = gql`
+  mutation($name: String!, $dateOfBirth: String!, $sex: Sex!) {
+    createInvestigator(
+      input: { name: $name, sex: $sex, dateOfBirth: $dateOfBirth }
+    ) {
+      id
+      name
+      email
+      createdAt
+    }
+  }
+`;
 
 const CallToAction: FC<CallToActionProps> = ({
   title,
@@ -71,10 +89,37 @@ const CallToAction: FC<CallToActionProps> = ({
 };
 
 const Login = () => {
+  const { user, token, isAuthenticated } = useFirebase();
+  const { account, role, getAccount } = useAccount();
   const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFirebaseSigningIn, setIsFirebaseSigningIn] = useState<boolean>(
+    false
+  );
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
+
+  // TODO add another query getAccount where you just pass the account type
+  const [createInvestigator] = useMutation(createInvestigatorMutation);
+
+  useEffect(() => {
+    if (account) {
+      console.log({ account, role });
+      redirectOnSignIn();
+    }
+  }, [account]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      createInvestigator({
+        variables: {
+          name: user.displayName,
+          dateOfBirth: '1990-01-01',
+          sex: 'MALE',
+        },
+        context: getHeaders(user, token),
+      }).then(() => getAccount());
+    }
+  }, [user, token, isAuthenticated, createInvestigator, getAccount]);
 
   return (
     <div className={styles.page}>
@@ -114,9 +159,13 @@ const Login = () => {
         <div className={styles.oauth}>
           <GoogleLoginButton
             label={'Sign in with Google'}
-            onClick={() => setIsLoading(true)}
+            onClick={() => {
+              setIsFirebaseSigningIn(true);
+            }}
             repo={oauthRepo}
-            onSuccess={redirectOnSignIn}
+            onSignedIn={() => {
+              setIsFirebaseSigningIn(false);
+            }}
           />
         </div>
 
@@ -144,7 +193,7 @@ const Login = () => {
 
           <div className={styles.rememberMe}>
             <Checkbox label={'Remember me'} />
-            <Link>Forgot password?</Link>
+            <AnchorLink href={'/forgot-password'}>Forgot password?</AnchorLink>
           </div>
 
           <EmailPasswordLoginButton
@@ -152,19 +201,13 @@ const Login = () => {
             email={email}
             password={password}
             repo={oauthRepo}
-            onClick={() => setIsLoading(true)}
+            onClick={() => setIsFirebaseSigningIn(true)}
             onSuccess={redirectOnSignIn}
           />
 
           <div className={styles.noAccount}>
             <Paragraph>No account yet?</Paragraph>
-            <Link
-              onClick={() => {
-                window.location.href = '/register';
-              }}
-            >
-              Create one here.
-            </Link>
+            <AnchorLink href={'/register'}>Create one here.</AnchorLink>
           </div>
         </div>
       </section>

@@ -4,7 +4,6 @@ import {
   Field,
   Card,
   Divider,
-  Link,
   ChipItem,
   Title,
   Paragraph,
@@ -13,6 +12,7 @@ import {
   GoogleLoginButton,
   FirebaseRepo,
   EmailPasswordLoginButton,
+  AnchorLink,
 } from '../../design-system';
 import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
@@ -126,7 +126,7 @@ const Login = () => {
             label={'Sign up with Google'}
             onClick={() => setIsLoading(true)}
             repo={oauthRepo}
-            onSuccess={redirectOnSignIn}
+            onSignedIn={redirectOnSignIn}
           />
         </div>
 
@@ -174,13 +174,7 @@ const Login = () => {
 
           <div className={styles.noAccount}>
             <Paragraph>Already have an account?</Paragraph>
-            <Link
-              onClick={() => {
-                window.location.href = '/login';
-              }}
-            >
-              Login here.
-            </Link>
+            <AnchorLink href={'/login'}>Login here.</AnchorLink>
           </div>
         </div>
       </section>

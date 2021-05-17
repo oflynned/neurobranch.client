@@ -10,18 +10,7 @@ class App extends Document {
   render() {
     return (
       <Html>
-        <Head>
-          <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossOrigin="true"
-          />
-          <link
-            rel="preload"
-            as="style"
-            href="https://fonts.googleapis.com/css?family=Lato:300,500,700|Roboto:300,500,700"
-          />
-        </Head>
+        <Head />
         <body>
           <Main />
           <NextScript />

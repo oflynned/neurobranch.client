@@ -51,6 +51,8 @@
       width: 33%;
       max-width: $breakpoint-sd;
       margin: $lg auto;
+      display: flex;
+      flex-direction: column;
 
       .email {
         margin: 0 0 $sm 0;
@@ -70,7 +72,7 @@
         display: inline-flex;
         margin-top: $md;
 
-        p:nth-child(2) {
+        :nth-child(2) {
           margin-left: $xxxs;
         }
       }
