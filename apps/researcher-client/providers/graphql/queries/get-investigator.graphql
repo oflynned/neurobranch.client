@@ -1,0 +1,8 @@
+query {
+  getInvestigator {
+    id
+    name
+    email
+    createdAt
+  }
+}
