@@ -32,8 +32,6 @@ export const RouteGuard = ({ children }) => {
     }
   }, [isLoading, router, token, user]);
 
-  console.log({ user, token, isLoading });
-
   if (isLoading) {
     return <Paragraph>Loading...</Paragraph>;
   }

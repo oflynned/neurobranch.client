@@ -37,7 +37,6 @@ export const GoogleLoginButton: FC<Props> = ({
             await onSignedIn(user, token);
           }
         } catch (e) {
-          console.log(e);
           throw new CredentialSignInException();
         }
       }}
