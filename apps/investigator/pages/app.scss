@@ -1,0 +1,8 @@
+@import "apps/investigator/styles/colours";
+
+* {
+  ::selection {
+    color: white;
+    background: $acapulco-cliffs;
+  }
+}
