@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-export const apolloClient = new ApolloClient({
-  uri: 'http://localhost:3000/v1/gql',
-  cache: new InMemoryCache(),
-});
+export const getApolloClient = (endpoint: string) =>
+  new ApolloClient({
+    uri: `${endpoint}/v1/gql`,
+    cache: new InMemoryCache(),
+  });

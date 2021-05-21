@@ -103,7 +103,6 @@ const Login = () => {
 
   useEffect(() => {
     if (account) {
-      console.log({ account, role });
       redirectOnSignIn();
     }
   }, [account]);
