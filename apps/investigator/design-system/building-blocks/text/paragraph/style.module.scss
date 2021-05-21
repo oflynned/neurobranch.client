@@ -1,0 +1,10 @@
+@import "apps/investigator/styles/global";
+
+.text {
+  font-family: 'Lato', 'sans-serif';
+  font-weight: normal;
+  font-size: $font-xs;
+  line-height: $font-xs-height;
+  color: $little-mermaid;
+  overflow-wrap: break-word;
+}

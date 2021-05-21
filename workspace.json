@@ -3,7 +3,7 @@
   "cli": {
     "defaultCollection": "@nrwl/next"
   },
-  "defaultProject": "researcher-client",
+  "defaultProject": "investigator",
   "generators": {
     "@nrwl/react": {
       "application": {
@@ -18,17 +18,24 @@
     }
   },
   "projects": {
-    "researcher-client": {
-      "root": "apps/researcher-client",
-      "sourceRoot": "apps/researcher-client",
+    "investigator": {
+      "root": "apps/investigator",
+      "sourceRoot": "apps/investigator",
       "projectType": "application",
       "targets": {
+        "deploy": {
+          "builder": "@netlify-builder/deploy:deploy",
+          "options": {
+            "outputPath": "dist/apps/investigator",
+            "siteId": "a740b93a-27a1-44df-b722-3084c5aef722"
+          }
+        },
         "build": {
           "executor": "@nrwl/next:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "root": "apps/researcher-client",
-            "outputPath": "dist/apps/researcher-client"
+            "root": "apps/investigator",
+            "outputPath": "dist/apps/investigator"
           },
           "configurations": {
             "production": {}
@@ -37,12 +44,12 @@
         "serve": {
           "executor": "@nrwl/next:server",
           "options": {
-            "buildTarget": "researcher-client:build",
+            "buildTarget": "investigator:build",
             "dev": true
           },
           "configurations": {
             "production": {
-              "buildTarget": "researcher-client:build:production",
+              "buildTarget": "investigator:build:production",
               "dev": false
             }
           }
@@ -50,47 +57,47 @@
         "export": {
           "executor": "@nrwl/next:export",
           "options": {
-            "buildTarget": "researcher-client:build:production"
+            "buildTarget": "investigator:build:production"
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/researcher-client"],
+          "outputs": ["coverage/apps/investigator"],
           "options": {
-            "jestConfig": "apps/researcher-client/jest.config.js",
+            "jestConfig": "apps/investigator/jest.config.js",
             "passWithNoTests": true
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/researcher-client/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["apps/investigator/**/*.{ts,tsx,js,jsx}"]
           }
         }
       }
     },
-    "researcher-client-e2e": {
-      "root": "apps/researcher-client-e2e",
-      "sourceRoot": "apps/researcher-client-e2e/src",
+    "investigator-e2e": {
+      "root": "apps/investigator-e2e",
+      "sourceRoot": "apps/investigator-e2e/src",
       "projectType": "application",
       "targets": {
         "e2e": {
           "executor": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/researcher-client-e2e/cypress.json",
-            "tsConfig": "apps/researcher-client-e2e/tsconfig.e2e.json",
-            "devServerTarget": "researcher-client:serve"
+            "cypressConfig": "apps/investigator-e2e/cypress.json",
+            "tsConfig": "apps/investigator-e2e/tsconfig.e2e.json",
+            "devServerTarget": "investigator:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "researcher-client:serve:production"
+              "devServerTarget": "investigator:serve:production"
             }
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/researcher-client-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/investigator-e2e/**/*.{js,ts}"]
           }
         }
       }

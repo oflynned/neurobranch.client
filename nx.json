@@ -19,12 +19,12 @@
     }
   },
   "projects": {
-    "researcher-client": {
+    "investigator": {
       "tags": []
     },
-    "researcher-client-e2e": {
+    "investigator-e2e": {
       "tags": [],
-      "implicitDependencies": ["researcher-client"]
+      "implicitDependencies": ["investigator"]
     }
   }
 }

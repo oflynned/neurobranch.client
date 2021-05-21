@@ -1,0 +1,11 @@
+@import "apps/investigator/styles/global";
+
+.divider {
+  display: flex;
+  align-items: center;
+  color: $pelican-bay;
+
+  .text {
+    margin: 0 $xl;
+  }
+}

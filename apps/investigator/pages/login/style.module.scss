@@ -1,0 +1,129 @@
+@import "apps/investigator/styles/global";
+
+.page {
+  display: flex;
+  height: 100vh;
+
+  section.login {
+    flex: 1;
+    align-self: center;
+    background-color: white;
+
+    .intro {
+      width: 33%;
+      max-width: $breakpoint-sd;
+      margin: auto;
+
+      .bolt {
+        @include filterSvg($acapulco-cliffs);
+      }
+
+      .title {
+        margin: $md 0;
+      }
+
+      .subtitle {
+        margin: $md 0 $lg 0;
+      }
+    }
+
+    .roles {
+      width: fit-content;
+      margin: auto;
+    }
+
+    .oauth {
+      width: 33%;
+      max-width: $breakpoint-sd;
+      margin: $lg auto;
+
+      button {
+        margin: $xxxs 0;
+      }
+    }
+
+    .divider {
+      margin: $xl auto;
+      width: 66%;
+    }
+
+    .credentials {
+      width: 33%;
+      max-width: $breakpoint-sd;
+      margin: $lg auto;
+      display: flex;
+      flex-direction: column;
+
+      .email {
+        margin: 0 0 $sm 0;
+      }
+
+      .password {
+        margin: 0 0 $sm 0;
+      }
+
+      .rememberMe {
+        margin: $md 0;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .noAccount {
+        display: inline-flex;
+        margin-top: $md;
+
+        :nth-child(2) {
+          margin-left: $xxxs;
+        }
+      }
+
+      button {
+        margin: $xxxs 0;
+      }
+    }
+  }
+
+  section.blurb {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($acapulco-cliffs, 0.3);
+
+    .logo {
+      margin: 32px;
+      top: 0;
+      right: 0;
+      position: absolute;
+    }
+
+    .content {
+      max-width: 512px;
+      text-align: center;
+
+      .cards {
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+
+        > :nth-child(1) {
+          z-index: 0;
+        }
+
+        > :nth-child(2) {
+          z-index: 10;
+          margin-left: -15%;
+          margin-top: 50%;
+        }
+      }
+
+      .heading {
+        margin-top: $lg;
+      }
+
+      .description {
+        margin-top: $xxxs;
+      }
+    }
+  }
+}

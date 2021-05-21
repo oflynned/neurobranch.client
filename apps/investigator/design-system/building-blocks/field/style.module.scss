@@ -1,0 +1,46 @@
+@import "apps/investigator/styles/global";
+
+.field {
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  label {
+    margin-bottom: $xxs;
+
+    &.error {
+      * {
+        color: $red-eye;
+      }
+    }
+  }
+
+  input {
+    padding: 0 0 0 $xxs;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid $pelican-bay;
+
+    &.error {
+      border: 1px solid $red-eye;
+      background-color: rgba($red-eye, 0.1);
+    }
+
+    &:focus {
+      background-color: rgba($acapulco-cliffs, 0.1);
+      outline: none;
+    }
+  }
+
+  div.error {
+    margin-top: $xxxs;
+
+    * {
+      color: $red-eye;
+    }
+  }
+}
