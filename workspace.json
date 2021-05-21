@@ -23,6 +23,13 @@
       "sourceRoot": "apps/investigator",
       "projectType": "application",
       "targets": {
+        "deploy": {
+          "builder": "@netlify-builder/deploy:deploy",
+          "options": {
+            "outputPath": "dist/apps/investigator",
+            "siteId": "a740b93a-27a1-44df-b722-3084c5aef722"
+          }
+        },
         "build": {
           "executor": "@nrwl/next:build",
           "outputs": ["{options.outputPath}"],
