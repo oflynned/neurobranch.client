@@ -20,14 +20,14 @@ export class BaseConfigService {
   }
 
   isProduction(): boolean {
-    return this.getValue('NODE_ENV') === 'production';
+    return this.getValue('MODE') === 'production';
   }
 
   isDevelopment(): boolean {
-    return this.getValue('NODE_ENV') === 'development';
+    return this.getValue('MODE') === 'development';
   }
 
   isTest(): boolean {
-    return this.getValue('NODE_ENV') === 'test';
+    return this.getValue('MODE') === 'test';
   }
 }
