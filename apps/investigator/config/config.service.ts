@@ -6,6 +6,10 @@ export class ConfigService extends BaseConfigService {
   }
 
   getApiEndpoint(): string {
-    return this.getValue('API_ENDPOINT') ?? 'http://localhost:3000';
+    if (this.isProduction()) {
+      return 'https://api.neurobranch.syzible.com';
+    }
+
+    return 'http://localhost:3000';
   }
 }
