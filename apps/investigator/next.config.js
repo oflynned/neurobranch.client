@@ -3,7 +3,6 @@ const path = require('path');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withNx = require('@nrwl/next/plugins/with-nx');
 const withImages = require('next-images');
-
 const withPlugins = require('next-compose-plugins');
 
 module.exports = {
