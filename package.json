@@ -55,14 +55,8 @@
     "tslib": "^2.0.0",
     "use-cookie-state": "^1.1.1",
     "uuid": "^8.3.2",
-    "nx": "^12.0.8"
-  },
-  "devDependencies": {
-    "@babel/core": "7.12.13",
-    "@babel/preset-env": "7.12.13",
-    "@babel/preset-react": "7.12.13",
-    "@babel/preset-typescript": "7.12.13",
-    "@emotion/babel-plugin": "11.2.0",
+    "nx": "^12.0.8",
+    "@nrwl/workspace": "12.0.8",
     "@nrwl/cli": "12.0.8",
     "@nrwl/cypress": "12.0.8",
     "@nrwl/eslint-plugin-nx": "12.0.8",
@@ -71,8 +65,14 @@
     "@nrwl/next": "12.0.8",
     "@nrwl/react": "12.0.8",
     "@nrwl/tao": "12.0.8",
-    "@nrwl/web": "12.0.8",
-    "@nrwl/workspace": "12.0.8",
+    "@nrwl/web": "12.0.8"
+  },
+  "devDependencies": {
+    "@babel/core": "7.12.13",
+    "@babel/preset-env": "7.12.13",
+    "@babel/preset-react": "7.12.13",
+    "@babel/preset-typescript": "7.12.13",
+    "@emotion/babel-plugin": "11.2.0",
     "@testing-library/react": "11.2.6",
     "@types/jest": "26.0.8",
     "@types/node": "14.14.33",
