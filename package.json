@@ -54,7 +54,9 @@
     "styled-reset": "^4.3.4",
     "tslib": "^2.0.0",
     "use-cookie-state": "^1.1.1",
-    "uuid": "^8.3.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
     "nx": "^12.0.8",
     "@nrwl/workspace": "12.0.8",
     "@nrwl/cli": "12.0.8",
@@ -65,9 +67,7 @@
     "@nrwl/next": "12.0.8",
     "@nrwl/react": "12.0.8",
     "@nrwl/tao": "12.0.8",
-    "@nrwl/web": "12.0.8"
-  },
-  "devDependencies": {
+    "@nrwl/web": "12.0.8",
     "@babel/core": "7.12.13",
     "@babel/preset-env": "7.12.13",
     "@babel/preset-react": "7.12.13",
