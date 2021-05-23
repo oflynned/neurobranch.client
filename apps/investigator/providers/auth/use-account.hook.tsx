@@ -49,7 +49,7 @@ export const AccountProvider = ({ children }) => {
   }, [data]);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (!!user && !!token) {
       getAccount({
         context: { ...getHeaders(user, token) },
       });

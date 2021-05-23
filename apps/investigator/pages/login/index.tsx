@@ -143,8 +143,6 @@ const Login = () => {
               height={48}
             />
 
-            <code>{process.env.NEXT_PUBLIC_MODE}</code>
-
             <div className={styles.title}>
               <Title>Login</Title>
             </div>
