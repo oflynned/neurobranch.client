@@ -6,7 +6,7 @@
     "nx": "nx",
     "start": "nx serve",
     "clean": "rimraf dist",
-    "build:investigator": "nx build investigator --outputPath=./dist",
+    "build:investigator": "npm run clean && nx build investigator --production --outputPath=./dist",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
