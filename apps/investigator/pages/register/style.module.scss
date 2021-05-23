@@ -10,7 +10,7 @@
     background-color: white;
 
     .intro {
-      width: 33%;
+      width: 50%;
       max-width: $breakpoint-sd;
       margin: auto;
 
@@ -33,7 +33,7 @@
     }
 
     .oauth {
-      width: 33%;
+      width: 50%;
       max-width: $breakpoint-sd;
       margin: $lg auto;
 
@@ -44,20 +44,24 @@
 
     .divider {
       margin: $xl auto;
-      width: 66%;
+      width: 50%;
     }
 
     .credentials {
-      width: 33%;
+      width: 50%;
       max-width: $breakpoint-sd;
       margin: $lg auto;
 
       .email {
-        margin: 0 0 $sm 0;
+        margin: 0 0 $xs 0;
       }
 
       .password {
-        margin: 0 0 $sm 0;
+        margin: 0 0 $xs 0;
+      }
+
+      .repeatPassword {
+        margin: 0 0 $xs 0;
       }
 
       .rememberMe {
@@ -66,7 +70,7 @@
         justify-content: space-between;
       }
 
-      .noAccount {
+      .haveAccount {
         display: inline-flex;
         margin-top: $md;
 

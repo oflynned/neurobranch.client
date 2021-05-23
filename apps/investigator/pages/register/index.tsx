@@ -154,7 +154,7 @@ const Login = () => {
               />
             </div>
 
-            <div className={styles.password}>
+            <div className={styles.repeatPassword}>
               <Field
                 error={'Passwords do not match'}
                 showError={password !== repeatPassword}
@@ -174,7 +174,7 @@ const Login = () => {
               onSuccess={redirectOnSignIn}
             />
 
-            <div className={styles.noAccount}>
+            <div className={styles.haveAccount}>
               <Paragraph>Already have an account?</Paragraph>
               <AnchorLink href={'/login'}>Login here.</AnchorLink>
             </div>
