@@ -11,11 +11,12 @@ import { getApolloClient } from '../providers/graphql/apollo-client';
 import { AccountProvider } from '../providers/auth/use-account.hook';
 import { ConfigService } from '../config/config.service';
 
-// TODO move this to a provider
-const config = new ConfigService();
-const client = getApolloClient(config.getApiEndpoint());
-
 const App = ({ Component, pageProps }: AppProps) => {
+
+  // TODO move this to a provider
+  const config = new ConfigService();
+  const client = getApolloClient(config.getApiEndpoint());
+
   return (
     <>
       <Reset />

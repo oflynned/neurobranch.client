@@ -1,7 +1,8 @@
 export type Optional<T> = T | undefined | null;
 
 export class BaseConfigService {
-  constructor(private readonly env: Record<string, string>) {}
+  constructor(private readonly env: Record<string, string>) {
+  }
 
   protected getValue(key: string, throwOnMissing = false): Optional<string> {
     const value = this.env[key];
@@ -20,14 +21,14 @@ export class BaseConfigService {
   }
 
   isProduction(): boolean {
-    return this.getValue('MODE') === 'production';
+    return this.getValue('NEXT_PUBLIC_MODE') === 'production';
   }
 
   isDevelopment(): boolean {
-    return this.getValue('MODE') === 'development';
+    return this.getValue('NEXT_PUBLIC_MODE') === 'development';
   }
 
   isTest(): boolean {
-    return this.getValue('MODE') === 'test';
+    return this.getValue('NEXT_PUBLIC_MODE') === 'test';
   }
 }

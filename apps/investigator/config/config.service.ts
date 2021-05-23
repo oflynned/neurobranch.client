@@ -6,7 +6,7 @@ export class ConfigService extends BaseConfigService {
   }
 
   getApiEndpoint(): string {
-    if (this.isProduction()) {
+    if (process.env.NEXT_PUBLIC_MODE === 'production') {
       return 'https://api.neurobranch.syzible.com';
     }
 
