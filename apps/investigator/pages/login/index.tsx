@@ -1,13 +1,11 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   Field,
-  Card,
   Divider,
   ChipItem,
   Title,
   Paragraph,
-  Heading,
   ChipGroup,
   Checkbox,
   GoogleLoginButton,
@@ -15,14 +13,15 @@ import {
   EmailPasswordLoginButton,
   AnchorLink,
   Layout,
+  CallToAction,
 } from '../../design-system';
 import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
-import { gql } from '@apollo/client/core';
 import { useMutation } from '@apollo/client';
 import { getHeaders } from '../../providers/graphql/use-user.hook';
 import { useFirebase } from '../../providers/auth';
 import { useAccount } from '../../providers/auth/use-account.hook';
+import { createInvestigatorMutation } from '../../use-cases/create-account';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
@@ -40,64 +39,6 @@ const redirectOnSignIn = () => {
   window.location.href = '/';
 };
 
-type CallToActionProps = {
-  title: string;
-  subtitle: string;
-  images: {
-    src: string;
-    alt: string;
-  }[];
-};
-
-const createInvestigatorMutation = gql`
-  mutation($name: String!, $dateOfBirth: String!, $sex: Sex!) {
-    createInvestigator(
-      input: { name: $name, sex: $sex, dateOfBirth: $dateOfBirth }
-    ) {
-      id
-      name
-      email
-      createdAt
-    }
-  }
-`;
-
-const CallToAction: FC<CallToActionProps> = ({ title, subtitle, images }) => {
-  const [foreground, background] = images;
-
-  return (
-    <>
-      <div className={styles.cards}>
-        <Card>
-          <Image
-            src={background.src}
-            alt={background.alt}
-            width={192}
-            height={192}
-          />
-        </Card>
-
-        <div className={styles.card}>
-          <Card>
-            <Image
-              src={foreground.src}
-              alt={foreground.alt}
-              width={192}
-              height={192}
-            />
-          </Card>
-        </div>
-      </div>
-      <div className={styles.heading}>
-        <Heading>{title}</Heading>
-      </div>
-      <div className={styles.description}>
-        <Paragraph>{subtitle}</Paragraph>
-      </div>
-    </>
-  );
-};
-
 const Login = () => {
   const { user, token, isAuthenticated } = useFirebase();
   const { account, role, getAccount } = useAccount();
@@ -110,6 +51,8 @@ const Login = () => {
 
   // TODO add another query getAccount where you just pass the account type
   const [createInvestigator] = useMutation(createInvestigatorMutation);
+
+  const isInvestigator = accountType === 'INVESTIGATOR';
 
   useEffect(() => {
     if (account) {
@@ -234,43 +177,41 @@ const Login = () => {
             />
           </div>
 
-          <div className={styles.content}>
-            {accountType === 'INVESTIGATOR' ? (
-              <CallToAction
-                title={'Empower your clinical trials with confidence'}
-                subtitle={
-                  'Enroll groups of sufficiently randomised cohorts into your trial and get the insights you need in real-time.'
-                }
-                images={[
-                  {
-                    src: '/static/images/onboarding-graph.svg',
-                    alt: 'Person placing graph points',
-                  },
-                  {
-                    src: '/static/images/onboarding-search.svg',
-                    alt: 'Scientist holding a magnifying glass',
-                  },
-                ]}
-              />
-            ) : (
-              <CallToAction
-                title={'Be a part of advancing scientific research'}
-                subtitle={
-                  'Clinical trials provide the basis for the understanding of behaviour and the development of new drugs, biological products and medical devices.'
-                }
-                images={[
-                  {
-                    src: '/static/images/onboarding-doctor.svg',
-                    alt: 'Doctors conversing about health',
-                  },
-                  {
-                    src: '/static/images/onboarding-laptop.svg',
-                    alt: 'Man looking at a giant smartphone',
-                  },
-                ]}
-              />
-            )}
-          </div>
+          {isInvestigator ? (
+            <CallToAction
+              title={'Empower your clinical trials with confidence'}
+              subtitle={
+                'Enroll groups of sufficiently randomised cohorts into your trial and get the insights you need in real-time.'
+              }
+              images={[
+                {
+                  src: '/static/images/onboarding-graph.svg',
+                  alt: 'Person placing graph points',
+                },
+                {
+                  src: '/static/images/onboarding-search.svg',
+                  alt: 'Scientist holding a magnifying glass',
+                },
+              ]}
+            />
+          ) : (
+            <CallToAction
+              title={'Be a part of advancing scientific research'}
+              subtitle={
+                'Clinical trials provide the basis for the understanding of behaviour and the development of new drugs, biological products and medical devices.'
+              }
+              images={[
+                {
+                  src: '/static/images/onboarding-doctor.svg',
+                  alt: 'Doctors conversing about health',
+                },
+                {
+                  src: '/static/images/onboarding-laptop.svg',
+                  alt: 'Man looking at a giant smartphone',
+                },
+              ]}
+            />
+          )}
         </section>
       </div>
     </Layout>
