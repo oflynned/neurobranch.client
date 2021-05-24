@@ -16,6 +16,13 @@ const query = gql`
 const base64Encode = (value: string) => Buffer.from(value).toString('base64');
 
 export const getHeaders = (user: FirebaseAccount, token: string) => {
+  console.log({
+    headers: {
+      'x-firebase-uid': base64Encode(user.uid),
+      Authorization: `Bearer ${base64Encode(token)}`,
+    },
+  });
+
   return {
     headers: {
       'x-firebase-uid': base64Encode(user.uid),

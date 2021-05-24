@@ -15,12 +15,16 @@ type Role = 'INVESTIGATOR' | 'CANDIDATE';
 
 const AccountContext = createContext<{
   account: Account | null;
+  loading: boolean;
+  error: Error;
   role: Role | null;
   getAccount: () => void;
 }>({
   account: null,
   role: null,
   getAccount: null,
+  loading: true,
+  error: null,
 });
 
 const query = gql`
@@ -36,7 +40,9 @@ const query = gql`
 
 export const AccountProvider = ({ children }) => {
   const { user, token, isAuthenticated } = useFirebase();
-  const [getAccount, { data }] = useLazyQuery<Account | null>(query);
+  const [getAccount, { data, loading, error }] = useLazyQuery<Account | null>(
+    query
+  );
   const [account, setAccount] = useState<Account | null>(null);
   const [role, setRole] = useState<Role | null>(null);
 
@@ -57,7 +63,9 @@ export const AccountProvider = ({ children }) => {
   }, [isAuthenticated, getAccount, user, token]);
 
   return (
-    <AccountContext.Provider value={{ account, role, getAccount }}>
+    <AccountContext.Provider
+      value={{ account, role, getAccount, loading, error }}
+    >
       {children}
     </AccountContext.Provider>
   );
