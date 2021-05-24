@@ -19,17 +19,15 @@ const Index = () => {
         </div>
         <Content>
           <Title>Authenticated!</Title>
-          <div>
-            <Button
-              text={'Log out'}
-              onClick={async () => {
-                await firebaseClient.auth().signOut();
-                window.location.href = '/';
-              }}
-            />
+          <Button
+            text={'Log out'}
+            onClick={async () => {
+              await firebaseClient.auth().signOut();
+              window.location.href = '/';
+            }}
+          />
 
-            {account && <Paragraph>Hey there, {account.name}!</Paragraph>}
-          </div>
+          {account && <Paragraph>Hey there, {account.name}!</Paragraph>}
         </Content>
       </div>
     </Layout>
