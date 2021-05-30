@@ -1,8 +1,9 @@
-import { Title, NavBar, Button, Paragraph, Layout } from '../../design-system';
-import styles from './style.module.scss';
-import { firebaseClient } from '../../providers/auth/firebase.client';
 import React, { FC } from 'react';
+import styles from './style.module.scss';
+import { Title, NavBar, Paragraph, Layout } from '../../design-system';
+import { firebaseClient } from '../../providers/auth/firebase.client';
 import { useAccount } from '../../providers/auth/use-account.hook';
+import { Button } from '@chakra-ui/react';
 
 const Content: FC = ({ children }) => {
   return <main className={styles.content}>{children}</main>;
@@ -20,14 +21,17 @@ const Index = () => {
         <Content>
           <Title>Authenticated!</Title>
           <Button
-            text={'Log out'}
-            onClick={async () => {
+            colorScheme={'teal'}
+            variant={'outline'}
+            onClickCapture={async () => {
               await firebaseClient.auth().signOut();
               window.location.href = '/';
             }}
-          />
+          >
+            Log out
+          </Button>
 
-          {account && <Paragraph>Hey there, {account.name}!</Paragraph>}
+          <Paragraph>Hey there, {account?.name}!</Paragraph>
         </Content>
       </div>
     </Layout>
