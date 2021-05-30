@@ -6,29 +6,32 @@ import { RouteGuard } from '../design-system';
 
 import './reset.scss';
 import './app.scss';
-import { ApolloProvider } from '@apollo/client';
-import { getApolloClient } from '../providers/graphql/apollo-client';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { AccountProvider } from '../providers/auth/use-account.hook';
 import { ConfigService } from '../config/config.service';
+import { ConfigProvider } from '../providers/config/config.provider';
 
 const App = ({ Component, pageProps }: AppProps) => {
-
-  // TODO move this to a provider
   const config = new ConfigService();
-  const client = getApolloClient(config.getApiEndpoint());
+  const client = new ApolloClient({
+    uri: `${config.getApiEndpoint()}/v1/gql`,
+    cache: new InMemoryCache(),
+  });
 
   return (
     <>
       <Reset />
-      <ApolloProvider client={client}>
-        <FirebaseProvider>
-          <AccountProvider>
-            <RouteGuard>
-              <Component {...pageProps} />
-            </RouteGuard>
-          </AccountProvider>
-        </FirebaseProvider>
-      </ApolloProvider>
+      <ConfigProvider>
+        <ApolloProvider client={client}>
+          <FirebaseProvider>
+            <AccountProvider>
+              <RouteGuard>
+                <Component {...pageProps} />
+              </RouteGuard>
+            </AccountProvider>
+          </FirebaseProvider>
+        </ApolloProvider>
+      </ConfigProvider>
     </>
   );
 };
