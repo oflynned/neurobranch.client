@@ -99,17 +99,14 @@ const CallToAction: FC<CallToActionProps> = ({ title, subtitle, images }) => {
 };
 
 const Login = () => {
-  const { user, token, isAuthenticated } = useFirebase();
-  const { account, role, getAccount } = useAccount();
+  const { firebaseUser, token, isAuthenticated } = useFirebase();
+  const { account, getAccount } = useAccount();
   const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
   const [isFirebaseSigningIn, setIsFirebaseSigningIn] = useState<boolean>(
     false
   );
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
-
-  // TODO add another query getAccount where you just pass the account type
-  const [createInvestigator] = useMutation(createInvestigatorMutation);
 
   useEffect(() => {
     if (account) {
@@ -119,16 +116,9 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      createInvestigator({
-        variables: {
-          name: user.displayName,
-          dateOfBirth: '1990-01-01',
-          sex: 'MALE',
-        },
-        context: getHeaders(user, token),
-      }).then(() => getAccount());
+      getAccount();
     }
-  }, [user, token, isAuthenticated, createInvestigator, getAccount]);
+  }, [firebaseUser, token, isAuthenticated, getAccount]);
 
   return (
     <Layout>
