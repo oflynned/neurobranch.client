@@ -1,41 +1,53 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
-import { firebaseClient } from './firebase.client';
 import firebase from 'firebase';
+import { firebaseClient } from './firebase.client';
+import { useLocalStorage } from '../local-storage/local-storage.provider';
 
-export type FirebaseAccount = Pick<
+export type FirebaseUser = Pick<
   firebase.User,
   'uid' | 'displayName' | 'email' | 'emailVerified' | 'photoURL' | 'providerId'
 >;
 
 const FirebaseContext = createContext<{
-  user: FirebaseAccount | null;
+  firebaseUser: FirebaseUser | null;
+  uid: string | null;
   token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  logout: () => Promise<void>;
 }>({
-  user: null,
+  firebaseUser: null,
+  uid: null,
   token: null,
   isLoading: true,
   isAuthenticated: false,
+  logout: () => null,
 });
 
-// TODO store these in a cookie so that it doesn't have to be fetched every time
 export const FirebaseProvider = ({ children }) => {
-  const [user, setUser] = useState<FirebaseAccount | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [uid, setUid, deleteUid] = useLocalStorage('uid');
+  const [firebaseUser, setFirebaseUser, deleteFirebaseUser] = useLocalStorage(
+    'firebaseUser'
+  );
+  const [token, setToken, deleteToken] = useLocalStorage('token');
+  const logout = async () => {
+    await firebaseClient.auth().signOut();
+    deleteUid();
+    deleteToken();
+    deleteFirebaseUser();
+  };
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsAuthenticated(!!user && !!token);
-  }, [user, token]);
-
-  useEffect(() => {
     setIsLoading(true);
+    setIsAuthenticated(!!uid && !!token);
 
     return firebaseClient.auth().onIdTokenChanged(async (user) => {
       setIsLoading(true);
-      setUser(user);
+      setFirebaseUser(user.toJSON().toString);
+      setUid(user.uid);
 
       if (user) {
         const token = await user.getIdToken();
@@ -44,11 +56,18 @@ export const FirebaseProvider = ({ children }) => {
 
       setIsLoading(false);
     });
-  }, []);
+  }, [uid, setUid, token, setToken]);
 
   return (
     <FirebaseContext.Provider
-      value={{ user, token, isLoading, isAuthenticated }}
+      value={{
+        firebaseUser: (firebaseUser as unknown) as FirebaseUser,
+        uid,
+        token,
+        isLoading,
+        isAuthenticated,
+        logout,
+      }}
     >
       {children}
     </FirebaseContext.Provider>

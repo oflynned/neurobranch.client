@@ -35,26 +35,21 @@ const query = gql`
 `;
 
 export const AccountProvider = ({ children }) => {
-  const { user, token, isAuthenticated } = useFirebase();
+  const { uid, token, isAuthenticated } = useFirebase();
   const [getAccount, { data }] = useLazyQuery<Account | null>(query);
   const [account, setAccount] = useState<Account | null>(null);
   const [role, setRole] = useState<Role | null>(null);
 
   useEffect(() => {
-    if (data) {
-      setRole('INVESTIGATOR');
-      // @ts-ignore
-      setAccount(data.getInvestigator);
-    }
+    console.log({ data });
   }, [data]);
 
   useEffect(() => {
-    if (!!user && !!token) {
-      getAccount({
-        context: { ...getHeaders(user, token) },
-      });
+    if (isAuthenticated) {
+      const context = getHeaders(uid, token);
+      getAccount({ context });
     }
-  }, [isAuthenticated, getAccount, user, token]);
+  }, [isAuthenticated, getAccount, uid, token]);
 
   return (
     <AccountContext.Provider value={{ account, role, getAccount }}>
