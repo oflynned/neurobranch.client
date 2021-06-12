@@ -1,20 +1,13 @@
 import { useContext, createContext, useEffect } from 'react';
 import { useFirebase } from './use-firebase.hook';
 import { useLocalStorage } from '../local-storage/local-storage.provider';
-import { useGetInvestigatorLazyQuery } from '@gql';
+import { Investigator, useGetInvestigatorLazyQuery } from '@gql';
 import { getHeaders } from '../graphql/gql.headers';
-
-type Account = {
-  id: string;
-  name: string;
-  email: string;
-  createdAt: string;
-};
 
 type Role = 'INVESTIGATOR' | 'CANDIDATE';
 
 const AccountContext = createContext<{
-  account: Account | null;
+  account: Investigator | null;
   role: Role | null;
   getAccount: () => void;
   logout: () => Promise<void>;
@@ -50,7 +43,7 @@ export const AccountProvider = ({ children }) => {
   return (
     <AccountContext.Provider
       value={{
-        account: account ? (JSON.parse(account) as Account) : null,
+        account: account ? (JSON.parse(account) as Investigator) : null,
         role: 'INVESTIGATOR',
         getAccount,
         logout,
