@@ -1,8 +1,8 @@
 import { useContext, createContext, useEffect } from 'react';
-import { getHeaders } from '../graphql/use-user.hook';
 import { useFirebase } from './use-firebase.hook';
 import { useLocalStorage } from '../local-storage/local-storage.provider';
 import { useGetInvestigatorLazyQuery } from '@gql';
+import { getHeaders } from '../graphql/gql.headers';
 
 type Account = {
   id: string;
