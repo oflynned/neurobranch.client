@@ -10,14 +10,14 @@ const isPathProtected = (path: string): boolean =>
 
 export const RouteGuard = ({ children }) => {
   const router = useRouter();
-  const { user, token, isLoading } = useFirebase();
+  const { firebaseUser, token, isLoading } = useFirebase();
 
   useEffect(() => {
     if (isLoading) {
       return;
     }
 
-    const isAuthenticated = !!user && !!token;
+    const isAuthenticated = !!firebaseUser && !!token;
 
     if (router.pathname === '/') {
       if (isAuthenticated) {
@@ -30,7 +30,7 @@ export const RouteGuard = ({ children }) => {
     if (!isAuthenticated && isPathProtected(router.pathname)) {
       router.push('/login');
     }
-  }, [isLoading, router, token, user]);
+  }, [isLoading, router, token, firebaseUser]);
 
   if (isLoading) {
     return <Paragraph>Loading...</Paragraph>;
