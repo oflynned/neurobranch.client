@@ -1,8 +1,9 @@
-import React, { useState, useContext, createContext, useEffect } from 'react';
+import React, { useContext, createContext, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { gql } from '@apollo/client/core';
 import { getHeaders } from '../graphql/use-user.hook';
 import { useFirebase } from './use-firebase.hook';
+import { useLocalStorage } from '../local-storage/local-storage.provider';
 
 type Account = {
   id: string;
@@ -17,10 +18,12 @@ const AccountContext = createContext<{
   account: Account | null;
   role: Role | null;
   getAccount: () => void;
+  logout: () => Promise<void>;
 }>({
   account: null,
   role: null,
   getAccount: null,
+  logout: () => null,
 });
 
 const query = gql`
@@ -37,12 +40,18 @@ const query = gql`
 export const AccountProvider = ({ children }) => {
   const { uid, token, isAuthenticated } = useFirebase();
   const [getAccount, { data }] = useLazyQuery<Account | null>(query);
-  const [account, setAccount] = useState<Account | null>(null);
-  const [role, setRole] = useState<Role | null>(null);
+  const [account, setAccount, deleteAccount] = useLocalStorage('account');
+
+  const logout = async (): Promise<void> => {
+    deleteAccount();
+  };
 
   useEffect(() => {
-    console.log({ data });
-  }, [data]);
+    if (data) {
+      // TODO generate gql types
+      setAccount(JSON.stringify(data['getInvestigator']));
+    }
+  }, [data, setAccount]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -52,7 +61,14 @@ export const AccountProvider = ({ children }) => {
   }, [isAuthenticated, getAccount, uid, token]);
 
   return (
-    <AccountContext.Provider value={{ account, role, getAccount }}>
+    <AccountContext.Provider
+      value={{
+        account: account ? (JSON.parse(account) as Account) : null,
+        role: 'INVESTIGATOR',
+        getAccount,
+        logout,
+      }}
+    >
       {children}
     </AccountContext.Provider>
   );

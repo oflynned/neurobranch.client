@@ -9,7 +9,7 @@ export type FirebaseUser = Pick<
 >;
 
 const FirebaseContext = createContext<{
-  firebaseUser: FirebaseUser | null;
+  firebaseUser: firebase.User | null;
   uid: string | null;
   token: string | null;
   isLoading: boolean;
@@ -46,22 +46,25 @@ export const FirebaseProvider = ({ children }) => {
 
     return firebaseClient.auth().onIdTokenChanged(async (user) => {
       setIsLoading(true);
-      setFirebaseUser(user.toJSON().toString);
-      setUid(user.uid);
 
       if (user) {
+        setFirebaseUser(JSON.stringify(user));
+        setUid(user.uid);
+
         const token = await user.getIdToken();
         setToken(token);
       }
 
       setIsLoading(false);
     });
-  }, [uid, setUid, token, setToken]);
+  }, [uid, setUid, token, setToken, setFirebaseUser]);
 
   return (
     <FirebaseContext.Provider
       value={{
-        firebaseUser: (firebaseUser as unknown) as FirebaseUser,
+        firebaseUser: firebaseUser
+          ? (JSON.parse(firebaseUser) as firebase.User)
+          : null,
         uid,
         token,
         isLoading,

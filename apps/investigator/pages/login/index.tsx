@@ -99,26 +99,24 @@ const CallToAction: FC<CallToActionProps> = ({ title, subtitle, images }) => {
 };
 
 const Login = () => {
-  const { firebaseUser, token, isAuthenticated } = useFirebase();
+  const { isAuthenticated } = useFirebase();
   const { account, getAccount } = useAccount();
   const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
-  const [isFirebaseSigningIn, setIsFirebaseSigningIn] = useState<boolean>(
-    false
-  );
+  const [, setIsFirebaseSigningIn] = useState<boolean>(false);
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
 
   useEffect(() => {
-    if (account) {
+    if (isAuthenticated && account) {
       redirectOnSignIn();
     }
-  }, [account]);
+  }, [isAuthenticated, account]);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !account) {
       getAccount();
     }
-  }, [firebaseUser, token, isAuthenticated, getAccount]);
+  }, [isAuthenticated, getAccount, account]);
 
   return (
     <Layout>
