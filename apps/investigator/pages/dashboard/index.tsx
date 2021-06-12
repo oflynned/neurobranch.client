@@ -1,6 +1,5 @@
 import { Title, NavBar, Button, Paragraph, Layout } from '../../design-system';
 import styles from './style.module.scss';
-import { firebaseClient } from '../../providers/auth/firebase.client';
 import { FC } from 'react';
 import { useAccount } from '../../providers/auth/use-account.hook';
 
@@ -9,7 +8,7 @@ const Content: FC = ({ children }) => {
 };
 
 const Index = () => {
-  const { account } = useAccount();
+  const { account, logout } = useAccount();
 
   return (
     <Layout>
@@ -23,7 +22,7 @@ const Index = () => {
             <Button
               text={'Log out'}
               onClick={async () => {
-                await firebaseClient.auth().signOut();
+                await logout();
                 window.location.href = '/';
               }}
             />
