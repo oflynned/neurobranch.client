@@ -24,7 +24,7 @@
       "projectType": "application",
       "targets": {
         "deploy": {
-          "builder": "@netlify-builder/deploy:deploy",
+          "executor": "@netlify-builder/deploy:deploy",
           "options": {
             "outputPath": "dist/apps/investigator",
             "siteId": "a740b93a-27a1-44df-b722-3084c5aef722"
@@ -98,6 +98,27 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/investigator-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "gql": {
+      "root": "libs/gql",
+      "sourceRoot": "libs/gql/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/gql/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/gql"],
+          "options": {
+            "jestConfig": "libs/gql/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }

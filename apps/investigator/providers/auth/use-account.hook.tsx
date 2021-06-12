@@ -1,9 +1,8 @@
 import { useContext, createContext, useEffect } from 'react';
-import { useLazyQuery } from '@apollo/client';
-import { gql } from '@apollo/client/core';
 import { getHeaders } from '../graphql/use-user.hook';
 import { useFirebase } from './use-firebase.hook';
 import { useLocalStorage } from '../local-storage/local-storage.provider';
+import { useGetInvestigatorLazyQuery } from '@gql';
 
 type Account = {
   id: string;
@@ -26,20 +25,9 @@ const AccountContext = createContext<{
   logout: () => null,
 });
 
-const query = gql`
-  query {
-    getInvestigator {
-      id
-      name
-      email
-      createdAt
-    }
-  }
-`;
-
 export const AccountProvider = ({ children }) => {
   const { uid, token, isAuthenticated } = useFirebase();
-  const [getAccount, { data }] = useLazyQuery<Account | null>(query);
+  const [getAccount, { data }] = useGetInvestigatorLazyQuery();
   const [account, setAccount, deleteAccount] = useLocalStorage('account');
 
   const logout = async (): Promise<void> => {
@@ -48,8 +36,7 @@ export const AccountProvider = ({ children }) => {
 
   useEffect(() => {
     if (data) {
-      // TODO generate gql types
-      setAccount(JSON.stringify(data['getInvestigator']));
+      setAccount(JSON.stringify(data.getInvestigator));
     }
   }, [data, setAccount]);
 

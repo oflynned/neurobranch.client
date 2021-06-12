@@ -47,19 +47,6 @@ type CallToActionProps = {
   }[];
 };
 
-const createInvestigatorMutation = gql`
-  mutation($name: String!, $dateOfBirth: String!, $sex: Sex!) {
-    createInvestigator(
-      input: { name: $name, sex: $sex, dateOfBirth: $dateOfBirth }
-    ) {
-      id
-      name
-      email
-      createdAt
-    }
-  }
-`;
-
 const CallToAction: FC<CallToActionProps> = ({ title, subtitle, images }) => {
   const [foreground, background] = images;
 
