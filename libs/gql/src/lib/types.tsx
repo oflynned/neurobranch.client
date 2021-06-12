@@ -1,10 +1,14 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -15,9 +19,6 @@ export type Scalars = {
   Cursor: any;
   Timestamp: any;
 };
-
-
-
 
 export type Actor = Participant | Investigator;
 
@@ -91,12 +92,11 @@ export type Criteria = {
   exclusion?: Maybe<Factor>;
 };
 
-
 export enum Epoch {
   Hours = 'HOURS',
   Days = 'DAYS',
   Weeks = 'WEEKS',
-  Months = 'MONTHS'
+  Months = 'MONTHS',
 }
 
 export type Factor = {
@@ -127,16 +127,13 @@ export type Investigator = {
   trials?: Maybe<TrialConnection>;
 };
 
-
 export type InvestigatorOrganisationsArgs = {
   pagination?: Maybe<PaginationInput>;
 };
 
-
 export type InvestigatorTeamsArgs = {
   pagination?: Maybe<PaginationInput>;
 };
-
 
 export type InvestigatorTrialsArgs = {
   pagination?: Maybe<PaginationInput>;
@@ -165,26 +162,21 @@ export type Mutation = {
   getServerTime?: Maybe<Scalars['Timestamp']>;
 };
 
-
 export type MutationCreateParticipantAccountArgs = {
   input?: Maybe<ParticipantInput>;
 };
-
 
 export type MutationCreateInvestigatorArgs = {
   input?: Maybe<CreateInvestigatorInput>;
 };
 
-
 export type MutationCreateOrganisationArgs = {
   input: CreateOrganisationInput;
 };
 
-
 export type MutationCreateTeamArgs = {
   input?: Maybe<CreateTeamInput>;
 };
-
 
 export type MutationCreateTrialArgs = {
   input?: Maybe<CreateTrialInput>;
@@ -206,21 +198,17 @@ export type Organisation = {
   teams?: Maybe<TeamConnection>;
 };
 
-
 export type OrganisationAdminsArgs = {
   pagination?: Maybe<PaginationInput>;
 };
-
 
 export type OrganisationCollaboratorsArgs = {
   pagination?: Maybe<PaginationInput>;
 };
 
-
 export type OrganisationObserversArgs = {
   pagination?: Maybe<PaginationInput>;
 };
-
 
 export type OrganisationTeamsArgs = {
   pagination?: Maybe<PaginationInput>;
@@ -301,21 +289,17 @@ export type Query = {
   getServerTime?: Maybe<Scalars['Timestamp']>;
 };
 
-
 export type QueryGetOrganisationByIdArgs = {
   id: Scalars['String'];
 };
-
 
 export type QueryGetOrganisationBySlugArgs = {
   slug: Scalars['String'];
 };
 
-
 export type QueryGetEligibleTrialsArgs = {
   pagination?: Maybe<PaginationInput>;
 };
-
 
 export type QueryGetTrialArgs = {
   trialId: Scalars['String'];
@@ -348,7 +332,7 @@ export enum QuestionType {
   Radio = 'RADIO',
   Checkbox = 'CHECKBOX',
   Scale = 'SCALE',
-  Text = 'TEXT'
+  Text = 'TEXT',
 }
 
 export type RadioResponse = {
@@ -360,7 +344,11 @@ export type RadioResponse = {
   response?: Maybe<Choice>;
 };
 
-export type Response = RadioResponse | CheckboxResponse | ScaleResponse | TextResponse;
+export type Response =
+  | RadioResponse
+  | CheckboxResponse
+  | ScaleResponse
+  | TextResponse;
 
 export type ResponseConnection = {
   __typename?: 'ResponseConnection';
@@ -386,7 +374,7 @@ export type ScaleResponse = {
 export enum Sex {
   Male = 'MALE',
   Female = 'FEMALE',
-  Other = 'OTHER'
+  Other = 'OTHER',
 }
 
 export type Team = {
@@ -403,11 +391,9 @@ export type Team = {
   trials?: Maybe<TrialConnection>;
 };
 
-
 export type TeamMembersArgs = {
   pagination?: Maybe<PaginationInput>;
 };
-
 
 export type TeamTrialsArgs = {
   pagination?: Maybe<PaginationInput>;
@@ -434,7 +420,6 @@ export type TextResponse = {
   response: Scalars['String'];
 };
 
-
 export type Trial = {
   __typename?: 'Trial';
   id: Scalars['ID'];
@@ -459,16 +444,13 @@ export type Trial = {
   questions?: Maybe<QuestionConnection>;
 };
 
-
 export type TrialInvestigatorsArgs = {
   pagination?: Maybe<PaginationInput>;
 };
 
-
 export type TrialParticipantsArgs = {
   pagination?: Maybe<PaginationInput>;
 };
-
 
 export type TrialQuestionsArgs = {
   pagination?: Maybe<PaginationInput>;
@@ -495,7 +477,7 @@ export enum TrialState {
   Ongoing = 'ONGOING',
   Done = 'DONE',
   Archived = 'ARCHIVED',
-  Cancelled = 'CANCELLED'
+  Cancelled = 'CANCELLED',
 }
 
 export type TriggerFrequency = {
@@ -510,28 +492,27 @@ export type TriggerTime = {
   minute: Scalars['Int'];
 };
 
-export type GetInvestigatorQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetInvestigatorQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type GetInvestigatorQuery = (
-  { __typename?: 'Query' }
-  & { getInvestigator?: Maybe<(
-    { __typename?: 'Investigator' }
-    & Pick<Investigator, 'id' | 'name' | 'email' | 'createdAt'>
-  )> }
-);
-
+export type GetInvestigatorQuery = { __typename?: 'Query' } & {
+  getInvestigator?: Maybe<
+    { __typename?: 'Investigator' } & Pick<
+      Investigator,
+      'id' | 'name' | 'email' | 'createdAt'
+    >
+  >;
+};
 
 export const GetInvestigatorDocument = gql`
-    query getInvestigator {
-  getInvestigator {
-    id
-    name
-    email
-    createdAt
+  query getInvestigator {
+    getInvestigator {
+      id
+      name
+      email
+      createdAt
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useGetInvestigatorQuery__
@@ -548,14 +529,37 @@ export const GetInvestigatorDocument = gql`
  *   },
  * });
  */
-export function useGetInvestigatorQuery(baseOptions?: Apollo.QueryHookOptions<GetInvestigatorQuery, GetInvestigatorQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetInvestigatorQuery, GetInvestigatorQueryVariables>(GetInvestigatorDocument, options);
-      }
-export function useGetInvestigatorLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetInvestigatorQuery, GetInvestigatorQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetInvestigatorQuery, GetInvestigatorQueryVariables>(GetInvestigatorDocument, options);
-        }
-export type GetInvestigatorQueryHookResult = ReturnType<typeof useGetInvestigatorQuery>;
-export type GetInvestigatorLazyQueryHookResult = ReturnType<typeof useGetInvestigatorLazyQuery>;
-export type GetInvestigatorQueryResult = Apollo.QueryResult<GetInvestigatorQuery, GetInvestigatorQueryVariables>;
+export function useGetInvestigatorQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetInvestigatorQuery,
+    GetInvestigatorQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetInvestigatorQuery, GetInvestigatorQueryVariables>(
+    GetInvestigatorDocument,
+    options
+  );
+}
+export function useGetInvestigatorLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetInvestigatorQuery,
+    GetInvestigatorQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetInvestigatorQuery,
+    GetInvestigatorQueryVariables
+  >(GetInvestigatorDocument, options);
+}
+export type GetInvestigatorQueryHookResult = ReturnType<
+  typeof useGetInvestigatorQuery
+>;
+export type GetInvestigatorLazyQueryHookResult = ReturnType<
+  typeof useGetInvestigatorLazyQuery
+>;
+export type GetInvestigatorQueryResult = Apollo.QueryResult<
+  GetInvestigatorQuery,
+  GetInvestigatorQueryVariables
+>;
