@@ -19,11 +19,13 @@ const AccountContext = createContext<{
 });
 
 export const AccountProvider = ({ children }) => {
-  const { uid, token, isAuthenticated } = useFirebase();
+  const { uid, token, isAuthenticated, logout } = useFirebase();
   const [getAccount, { data }] = useGetInvestigatorLazyQuery();
   const [account, setAccount, deleteAccount] = useLocalStorage('account');
 
-  const logout = async (): Promise<void> => {
+  const logoutAccount = async (): Promise<void> => {
+    // TODO use better naming, deleteAccount only deletes the localstorage of the account info
+    await logout();
     deleteAccount();
   };
 
@@ -46,7 +48,7 @@ export const AccountProvider = ({ children }) => {
         account: account ? (JSON.parse(account) as Investigator) : null,
         role: 'INVESTIGATOR',
         getAccount,
-        logout,
+        logout: logoutAccount,
       }}
     >
       {children}
