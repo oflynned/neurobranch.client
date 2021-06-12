@@ -1,0 +1,384 @@
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """The variable name to export this field as."""
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """Specify the store key."""
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+union Actor = Participant | Investigator
+
+type Audit {
+  id: ID!
+  action: String!
+  performedAt: Timestamp!
+  performedBy: Actor
+}
+
+type AuditEdge {
+  node: Audit
+  cursor: Cursor!
+}
+
+type AuditConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [AuditEdge]!
+}
+
+type Mutation {
+  createParticipantAccount(input: ParticipantInput): Participant
+  createInvestigator(input: CreateInvestigatorInput): Investigator
+  createOrganisation(input: CreateOrganisationInput!): Organisation
+  createTeam(input: CreateTeamInput): Team
+  createTrial(input: CreateTrialInput): Trial
+  getServerTime: Timestamp
+}
+
+input ParticipantInput {
+  name: String!
+  dateOfBirth: String!
+  email: String!
+  username: String!
+}
+
+type Participant {
+  id: ID!
+  createdAt: Timestamp!
+  deletedAt: Timestamp
+  verifiedAt: Timestamp
+  auditLog: AuditConnection
+  name: String!
+  username: String!
+  email: String!
+}
+
+type ParticipantEdge {
+  node: Participant
+  cursor: Cursor!
+}
+
+type ParticipantConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [ParticipantEdge]!
+}
+
+enum QuestionType {
+  RADIO
+  CHECKBOX
+  SCALE
+  TEXT
+}
+
+type Question {
+  id: ID!
+  title: String!
+  type: QuestionType!
+  optional: Boolean!
+  choices: [Choice!]
+  trial: Trial
+}
+
+type QuestionEdge {
+  node: Question
+  cursor: Cursor!
+}
+
+type QuestionConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [QuestionEdge]!
+}
+
+type Choice {
+  id: ID!
+  index: Int!
+}
+
+union Response = RadioResponse | CheckboxResponse | ScaleResponse | TextResponse
+
+type ResponseEdge {
+  node: Response
+  cursor: Cursor!
+}
+
+type ResponseConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [ResponseEdge]!
+}
+
+type RadioResponse {
+  id: ID!
+  type: QuestionType!
+  respondent: Participant
+  choices: [Choice!]
+  response: Choice
+}
+
+type CheckboxResponse {
+  id: ID!
+  type: QuestionType!
+  respondent: Participant
+  choices: [Choice!]
+  responses: [Choice!]
+}
+
+type TextResponse {
+  id: ID!
+  type: QuestionType!
+  respondent: Participant
+  response: String!
+}
+
+type ScaleResponse {
+  id: ID!
+  type: QuestionType!
+  respondent: Participant
+  response: Float!
+}
+
+type Query {
+  getInvestigator: Investigator
+  getOrganisationById(id: String!): Organisation
+  getOrganisationBySlug(slug: String!): Organisation
+  getEligibleTrials(pagination: PaginationInput): TrialConnection
+  getTrial(trialId: String!): Trial
+  getServerTime: Timestamp
+}
+
+type Investigator {
+  id: ID!
+  auditLog: AuditConnection
+  createdAt: Timestamp!
+  deletedAt: Timestamp
+  verifiedAt: Timestamp
+  name: String!
+  dateOfBirth: String!
+  sex: Sex!
+  email: String!
+  isOnboarded: Boolean
+  organisations(pagination: PaginationInput): OrganisationConnection
+  teams(pagination: PaginationInput): TeamConnection
+  trials(pagination: PaginationInput): TrialConnection
+}
+
+enum Sex {
+  MALE
+  FEMALE
+  OTHER
+}
+
+type InvestigatorEdge {
+  node: Trial
+  cursor: Cursor!
+}
+
+type InvestigatorConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [InvestigatorEdge]!
+}
+
+input CreateInvestigatorInput {
+  name: String!
+  dateOfBirth: String!
+  sex: Sex!
+}
+
+input CreateOrganisationInput {
+  name: String!
+  slug: String!
+}
+
+type Organisation {
+  id: ID!
+  auditLog: AuditConnection
+  createdAt: Timestamp!
+  deletedAt: Timestamp
+  name: String!
+  slug: String!
+  logo: Image
+  creator: Investigator
+  admins(pagination: PaginationInput): InvestigatorConnection
+  collaborators(pagination: PaginationInput): InvestigatorConnection
+  observers(pagination: PaginationInput): InvestigatorConnection
+  teams(pagination: PaginationInput): TeamConnection
+}
+
+type OrganisationNotFound {
+  error: String!
+}
+
+union OrganisationResult = Organisation | OrganisationNotFound
+
+type OrganisationEdge {
+  node: Organisation
+  cursor: Cursor!
+}
+
+type OrganisationConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [OrganisationEdge]!
+}
+
+type Image {
+  id: ID!
+  url: String!
+}
+
+input CreateTeamInput {
+  organisationId: ID!
+  slug: String!
+  name: String!
+  description: String
+}
+
+type Team {
+  id: ID!
+  auditLog: AuditConnection
+  createdAt: Timestamp!
+  deletedAt: Timestamp
+  name: String!
+  slug: String!
+  description: String
+  members(pagination: PaginationInput): InvestigatorConnection
+  organisation: Organisation
+  trials(pagination: PaginationInput): TrialConnection
+}
+
+type TeamEdge {
+  node: Team
+  cursor: Cursor!
+}
+
+type TeamConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [TeamEdge]!
+}
+
+enum Epoch {
+  HOURS
+  DAYS
+  WEEKS
+  MONTHS
+}
+
+type TriggerTime {
+  hour: Int!
+  minute: Int!
+}
+
+type TriggerFrequency {
+  count: Int!
+  unit: Epoch!
+}
+
+type Factor {
+  condition: [String!]
+}
+
+type Criteria {
+  inclusion: Factor
+  exclusion: Factor
+}
+
+type Trial {
+  id: ID!
+  createdAt: Timestamp!
+  lastUpdatedAt: Timestamp
+  deletedAt: Timestamp
+  auditLog: AuditConnection
+  criteria: Criteria
+  lead: Investigator
+  investigators(pagination: PaginationInput): InvestigatorConnection
+  participants(pagination: PaginationInput): ParticipantConnection
+  minimumParticipantCount: Int
+  state: TrialState
+  title: String
+  synopsis: String
+  description: String
+  tags: [String!]
+  startTime: Timestamp
+  endTime: Timestamp
+  triggerTime: TriggerTime
+  triggerFrequency: TriggerFrequency
+  questions(pagination: PaginationInput): QuestionConnection
+}
+
+enum TrialState {
+  DRAFT
+  PUBLISHED
+  ENLISTING
+  STARTABLE
+  ONGOING
+  DONE
+  ARCHIVED
+  CANCELLED
+}
+
+type TrialEdge {
+  node: Trial
+  cursor: Cursor!
+}
+
+type TrialConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [TrialEdge]!
+}
+
+input CreateTrialInput {
+  startTime: Timestamp!
+  duration: Int!
+  title: String!
+  synopsis: String!
+  description: String!
+  tags: [String!]!
+  teamId: String!
+}
+
+input PaginationInput {
+  first: Int
+  after: Cursor
+}
+
+type PageInfo {
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  startCursor: Cursor
+  endCursor: Cursor
+}
+
+scalar Timestamp
+
+scalar Cursor
