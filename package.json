@@ -24,12 +24,14 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "typecheck": "tsc --noEmit --jsx preserve --project tsconfig.base.json"
   },
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.18",
     "@devhammed/use-cookie": "^1.1.1",
+    "@rehooks/local-storage": "^2.4.1",
     "autoprefixer": "^10.2.5",
     "cookie": "^0.4.1",
     "core-js": "^3.6.5",

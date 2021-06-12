@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   Field,
@@ -19,8 +19,6 @@ import {
 import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
 import { gql } from '@apollo/client/core';
-import { useMutation } from '@apollo/client';
-import { getHeaders } from '../../providers/graphql/use-user.hook';
 import { useFirebase } from '../../providers/auth';
 import { useAccount } from '../../providers/auth/use-account.hook';
 
@@ -99,36 +97,24 @@ const CallToAction: FC<CallToActionProps> = ({ title, subtitle, images }) => {
 };
 
 const Login = () => {
-  const { user, token, isAuthenticated } = useFirebase();
-  const { account, role, getAccount } = useAccount();
+  const { isAuthenticated } = useFirebase();
+  const { account, getAccount } = useAccount();
   const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
-  const [isFirebaseSigningIn, setIsFirebaseSigningIn] = useState<boolean>(
-    false
-  );
+  const [, setIsFirebaseSigningIn] = useState<boolean>(false);
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
 
-  // TODO add another query getAccount where you just pass the account type
-  const [createInvestigator] = useMutation(createInvestigatorMutation);
-
   useEffect(() => {
-    if (account) {
+    if (isAuthenticated && account) {
       redirectOnSignIn();
     }
-  }, [account]);
+  }, [isAuthenticated, account]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      createInvestigator({
-        variables: {
-          name: user.displayName,
-          dateOfBirth: '1990-01-01',
-          sex: 'MALE',
-        },
-        context: getHeaders(user, token),
-      }).then(() => getAccount());
+    if (isAuthenticated && !account) {
+      getAccount();
     }
-  }, [user, token, isAuthenticated, createInvestigator, getAccount]);
+  }, [isAuthenticated, getAccount, account]);
 
   return (
     <Layout>
