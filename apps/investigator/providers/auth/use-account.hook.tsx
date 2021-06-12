@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useEffect } from 'react';
+import { useContext, createContext, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { gql } from '@apollo/client/core';
 import { getHeaders } from '../graphql/use-user.hook';

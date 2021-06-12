@@ -1,7 +1,7 @@
 import { Title, NavBar, Button, Paragraph, Layout } from '../../design-system';
 import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useAccount } from '../../providers/auth/use-account.hook';
 
 const Content: FC = ({ children }) => {

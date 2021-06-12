@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   Field,
@@ -19,8 +19,6 @@ import {
 import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
 import { gql } from '@apollo/client/core';
-import { useMutation } from '@apollo/client';
-import { getHeaders } from '../../providers/graphql/use-user.hook';
 import { useFirebase } from '../../providers/auth';
 import { useAccount } from '../../providers/auth/use-account.hook';
 

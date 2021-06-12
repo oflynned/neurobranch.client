@@ -1,12 +1,7 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect, useContext, createContext } from 'react';
 import firebase from 'firebase';
 import { firebaseClient } from './firebase.client';
 import { useLocalStorage } from '../local-storage/local-storage.provider';
-
-export type FirebaseUser = Pick<
-  firebase.User,
-  'uid' | 'displayName' | 'email' | 'emailVerified' | 'photoURL' | 'providerId'
->;
 
 const FirebaseContext = createContext<{
   firebaseUser: firebase.User | null;

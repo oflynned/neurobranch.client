@@ -1,4 +1,3 @@
-import React from 'react';
 import { AppProps } from 'next/app';
 import { FirebaseProvider } from '../providers/auth';
 import { Reset } from 'styled-reset';
