@@ -1,0 +1,11 @@
+fragment MinimalInvestigator on Investigator {
+    id
+    name
+    email
+}
+
+query getInvestigator {
+    getInvestigator {
+        ...MinimalInvestigator
+    }
+}

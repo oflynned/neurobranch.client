@@ -1,0 +1,7 @@
+mutation onboardInvestigator($name:String!, $sex: Sex!, $dateOfBirth: String!) {
+    createInvestigator(input: {name: $name, sex: $sex, dateOfBirth: $dateOfBirth}) {
+        id
+        name
+        email
+    }
+}

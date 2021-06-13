@@ -1,24 +1,23 @@
-import { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import {
-  Field,
-  Card,
-  Divider,
-  ChipItem,
-  Title,
-  Paragraph,
-  Heading,
-  ChipGroup,
-  Checkbox,
-  GoogleLoginButton,
-  FirebaseRepo,
-  EmailPasswordLoginButton,
   AnchorLink,
+  Checkbox,
+  ChipGroup,
+  ChipItem,
+  Divider,
+  EmailPasswordLoginButton,
+  Field,
+  FirebaseRepo,
+  GoogleLoginButton,
   Layout,
+  Paragraph,
+  Title,
 } from '../../design-system';
-import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
 import { useAccount } from '../../providers/auth/use-account.hook';
+import styles from './style.module.scss';
+import { CallToAction } from '../../design-system/components/call-to-action';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
@@ -36,62 +35,37 @@ const redirectOnSignIn = () => {
   window.location.href = '/';
 };
 
-type CallToActionProps = {
-  title: string;
-  subtitle: string;
-  images: {
-    src: string;
-    alt: string;
-  }[];
-};
-
-const CallToAction: FC<CallToActionProps> = ({ title, subtitle, images }) => {
-  const [foreground, background] = images;
-
-  return (
-    <>
-      <div className={styles.cards}>
-        <Card>
-          <Image
-            src={background.src}
-            alt={background.alt}
-            width={192}
-            height={192}
-          />
-        </Card>
-
-        <div className={styles.card}>
-          <Card>
-            <Image
-              src={foreground.src}
-              alt={foreground.alt}
-              width={192}
-              height={192}
-            />
-          </Card>
-        </div>
-      </div>
-      <div className={styles.heading}>
-        <Heading>{title}</Heading>
-      </div>
-      <div className={styles.description}>
-        <Paragraph>{subtitle}</Paragraph>
-      </div>
-    </>
-  );
-};
-
 const Login = () => {
-  const { isAuthenticated } = useAccount();
+  const {
+    account,
+    getAccount,
+    isLoading,
+    isAuthenticated,
+    isFetched,
+    logout,
+  } = useAccount();
   const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      redirectOnSignIn();
+    if (!isAuthenticated) {
+      return;
     }
-  }, [isAuthenticated]);
+
+    console.log({ isAuthenticated, isLoading });
+    if (isAuthenticated && !isLoading) {
+      getAccount();
+      return;
+    }
+  }, [isAuthenticated, account, logout, getAccount, isLoading]);
+
+  useEffect(() => {
+    console.log({ isFetched });
+    if (isFetched) {
+      window.location.href = '/';
+    }
+  }, [isFetched]);
 
   return (
     <Layout>
