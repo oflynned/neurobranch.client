@@ -1,20 +1,29 @@
-import { useContext, createContext, useEffect, useState } from 'react';
-import { useFirebase } from './use-firebase.hook';
-import { useLocalStorage } from '../local-storage/local-storage.provider';
-import { Investigator, useGetInvestigatorLazyQuery } from '@gql';
+import { GetInvestigatorQuery, useGetLoginAccountLazyQuery } from '@gql';
+import firebase from 'firebase';
+import { createContext, useContext, useEffect } from 'react';
 import { getHeaders } from '../graphql/gql.headers';
+import { useLocalStorage } from '../local-storage/local-storage.provider';
+import { useFirebase } from './use-firebase.hook';
+
+type FirebaseUser = Pick<firebase.User, 'email' | 'displayName'>;
 
 const AccountContext = createContext<{
+  firebaseUser: FirebaseUser;
+  isFirebaseAuthenticated: boolean;
   isAuthenticated: boolean;
   isLoading: boolean;
-  account: Investigator | null;
+  isFetched: boolean;
+  account: GetInvestigatorQuery | null;
   getAccount: () => void;
   logout: () => Promise<void>;
   jwt: string | null;
   uid: string | null;
 }>({
+  firebaseUser: null,
+  isFirebaseAuthenticated: false,
   isAuthenticated: false,
   isLoading: false,
+  isFetched: false,
   account: null,
   getAccount: null,
   logout: () => null,
@@ -24,39 +33,46 @@ const AccountContext = createContext<{
 
 export const AccountProvider = ({ children }) => {
   const {
+    firebaseUser,
     uid: firebaseUid,
     token: jwtToken,
     isAuthenticated: isFirebaseAuthenticated,
     isLoading: isFirebaseLoading,
     logout: firebaseLogout,
   } = useFirebase();
-  const [getAccount, { data }] = useGetInvestigatorLazyQuery();
+  const [
+    getAccount,
+    { data, loading: isAccountLoading, called: isAccountFetched },
+  ] = useGetLoginAccountLazyQuery();
   const [
     account,
     setLocalStorageAccount,
     deleteLocalStorageAccount,
   ] = useLocalStorage('account');
-  const [isAccountLoading, setIsAccountLoading] = useState(false);
 
   const logoutAccount = async (): Promise<void> => {
-    setIsAccountLoading(true);
     await firebaseLogout();
     deleteLocalStorageAccount();
-    setIsAccountLoading(false);
   };
 
   useEffect(() => {
-    if (data) {
-      setLocalStorageAccount(JSON.stringify(data.getInvestigator));
+    if (isAccountLoading || isFirebaseLoading) {
+      return;
     }
 
-    setIsAccountLoading(false);
-  }, [data, setLocalStorageAccount]);
+    if (data?.getInvestigatorByProviderUid) {
+      setLocalStorageAccount(JSON.stringify(data.getInvestigatorByProviderUid));
+    }
+  }, [
+    isFirebaseLoading,
+    isAccountLoading,
+    isFirebaseAuthenticated,
+    data,
+    setLocalStorageAccount,
+  ]);
 
   useEffect(() => {
     if (isFirebaseAuthenticated) {
-      setIsAccountLoading(true);
-
       getAccount({ context: getHeaders(firebaseUid, jwtToken) });
     }
   }, [isFirebaseAuthenticated, getAccount, firebaseUid, jwtToken]);
@@ -64,9 +80,12 @@ export const AccountProvider = ({ children }) => {
   return (
     <AccountContext.Provider
       value={{
-        account: account ? (JSON.parse(account) as Investigator) : null,
+        firebaseUser,
+        account: account ? (JSON.parse(account) as GetInvestigatorQuery) : null,
+        isFirebaseAuthenticated,
         isAuthenticated: !!account && isFirebaseAuthenticated,
         isLoading: isFirebaseLoading || isAccountLoading,
+        isFetched: isAccountFetched,
         getAccount,
         logout: logoutAccount,
         jwt: jwtToken,
