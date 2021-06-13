@@ -10,12 +10,16 @@ const AccountContext = createContext<{
   account: Investigator | null;
   getAccount: () => void;
   logout: () => Promise<void>;
+  jwt: string | null;
+  uid: string | null;
 }>({
   isAuthenticated: false,
   isLoading: false,
   account: null,
   getAccount: null,
   logout: () => null,
+  jwt: null,
+  uid: null,
 });
 
 export const AccountProvider = ({ children }) => {
@@ -65,6 +69,8 @@ export const AccountProvider = ({ children }) => {
         isLoading: isFirebaseLoading || isAccountLoading,
         getAccount,
         logout: logoutAccount,
+        jwt: jwtToken,
+        uid: firebaseUid,
       }}
     >
       {children}
