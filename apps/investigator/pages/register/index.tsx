@@ -17,6 +17,7 @@ import {
 } from '../../design-system';
 import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
+import { CallToAction } from '../../design-system/components/call-to-action';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
@@ -32,42 +33,6 @@ type Role = 'INVESTIGATOR' | 'CANDIDATE';
 
 const redirectOnSignIn = () => {
   window.location.href = '/';
-};
-
-type CallToActionProps = {
-  title: string;
-  subtitle: string;
-  backgroundSrc: string;
-  foregroundSrc: string;
-};
-
-const CallToAction: FC<CallToActionProps> = ({
-  title,
-  subtitle,
-  foregroundSrc,
-  backgroundSrc,
-}) => {
-  return (
-    <>
-      <div className={styles.cards}>
-        <Card>
-          <Image src={backgroundSrc} width={192} height={192} />
-        </Card>
-
-        <div className={styles.card}>
-          <Card>
-            <Image src={foregroundSrc} width={192} height={192} />
-          </Card>
-        </div>
-      </div>
-      <div className={styles.heading}>
-        <Heading>{title}</Heading>
-      </div>
-      <div className={styles.description}>
-        <Paragraph>{subtitle}</Paragraph>
-      </div>
-    </>
-  );
 };
 
 const Login = () => {
@@ -196,8 +161,16 @@ const Login = () => {
                 subtitle={
                   'Enroll groups of sufficiently randomised cohorts into your trial and get the insights you need in real-time.'
                 }
-                foregroundSrc={'/static/images/onboarding-graph.svg'}
-                backgroundSrc={'/static/images/onboarding-search.svg'}
+                images={[
+                  {
+                    src: '/static/images/onboarding-graph.svg',
+                    alt: 'Person placing graph points',
+                  },
+                  {
+                    src: '/static/images/onboarding-search.svg',
+                    alt: 'Scientist holding a magnifying glass',
+                  },
+                ]}
               />
             ) : (
               <CallToAction
@@ -205,8 +178,16 @@ const Login = () => {
                 subtitle={
                   'Clinical trials provide the basis for the understanding of behaviour and the development of new drugs, biological products and medical devices.'
                 }
-                foregroundSrc={'/static/images/onboarding-doctor.svg'}
-                backgroundSrc={'/static/images/onboarding-laptop.svg'}
+                images={[
+                  {
+                    src: '/static/images/onboarding-doctor.svg',
+                    alt: 'Doctors conversing about health',
+                  },
+                  {
+                    src: '/static/images/onboarding-laptop.svg',
+                    alt: 'Man looking at a giant smartphone',
+                  },
+                ]}
               />
             )}
           </div>
