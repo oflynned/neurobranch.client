@@ -1,4 +1,4 @@
-import { Title, NavBar, Button, Layout } from '../../design-system';
+import { Title, NavBar, Button, Layout, Heading } from '../../design-system';
 import styles from './style.module.scss';
 import { FC } from 'react';
 import { useAccount } from '../../providers/auth/use-account.hook';
@@ -8,7 +8,7 @@ const Content: FC = ({ children }) => {
 };
 
 const Index = () => {
-  const { logout, uid, jwt } = useAccount();
+  const { logout, uid, jwt, account } = useAccount();
 
   return (
     <Layout>
@@ -18,6 +18,7 @@ const Index = () => {
         </div>
         <Content>
           <Title>Dashboard</Title>
+          <Heading>Welcome back {account.name}</Heading>
           <div>
             <Button
               text={'Log out'}
