@@ -1,5 +1,5 @@
-import * as Apollo from '@apollo/client';
 import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -499,29 +499,50 @@ export type GetLoginAccountQuery = { __typename?: 'Query' } & {
   getInvestigatorByProviderUid?: Maybe<
     { __typename?: 'Investigator' } & Pick<
       Investigator,
-      'id' | 'name' | 'email' | 'createdAt' | 'isOnboarded'
+      'name' | 'email' | 'isOnboarded'
     >
   >;
 };
+
+export type OnboardInvestigatorMutationVariables = Exact<{
+  name: Scalars['String'];
+  sex: Sex;
+  dateOfBirth: Scalars['String'];
+}>;
+
+export type OnboardInvestigatorMutation = { __typename?: 'Mutation' } & {
+  createInvestigator?: Maybe<
+    { __typename?: 'Investigator' } & Pick<
+      Investigator,
+      'id' | 'name' | 'email'
+    >
+  >;
+};
+
+export type MinimalInvestigatorFragment = {
+  __typename?: 'Investigator';
+} & Pick<Investigator, 'id' | 'name' | 'email'>;
 
 export type GetInvestigatorQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetInvestigatorQuery = { __typename?: 'Query' } & {
   getInvestigator?: Maybe<
-    { __typename?: 'Investigator' } & Pick<
-      Investigator,
-      'id' | 'name' | 'email' | 'createdAt'
-    >
+    { __typename?: 'Investigator' } & MinimalInvestigatorFragment
   >;
 };
 
+export const MinimalInvestigatorFragmentDoc = gql`
+  fragment MinimalInvestigator on Investigator {
+    id
+    name
+    email
+  }
+`;
 export const GetLoginAccountDocument = gql`
   query getLoginAccount {
     getInvestigatorByProviderUid {
-      id
       name
       email
-      createdAt
       isOnboarded
     }
   }
@@ -576,15 +597,72 @@ export type GetLoginAccountQueryResult = Apollo.QueryResult<
   GetLoginAccountQuery,
   GetLoginAccountQueryVariables
 >;
-export const GetInvestigatorDocument = gql`
-  query getInvestigator {
-    getInvestigator {
+export const OnboardInvestigatorDocument = gql`
+  mutation onboardInvestigator(
+    $name: String!
+    $sex: Sex!
+    $dateOfBirth: String!
+  ) {
+    createInvestigator(
+      input: { name: $name, sex: $sex, dateOfBirth: $dateOfBirth }
+    ) {
       id
       name
       email
-      createdAt
     }
   }
+`;
+export type OnboardInvestigatorMutationFn = Apollo.MutationFunction<
+  OnboardInvestigatorMutation,
+  OnboardInvestigatorMutationVariables
+>;
+
+/**
+ * __useOnboardInvestigatorMutation__
+ *
+ * To run a mutation, you first call `useOnboardInvestigatorMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOnboardInvestigatorMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [onboardInvestigatorMutation, { data, loading, error }] = useOnboardInvestigatorMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      sex: // value for 'sex'
+ *      dateOfBirth: // value for 'dateOfBirth'
+ *   },
+ * });
+ */
+export function useOnboardInvestigatorMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    OnboardInvestigatorMutation,
+    OnboardInvestigatorMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    OnboardInvestigatorMutation,
+    OnboardInvestigatorMutationVariables
+  >(OnboardInvestigatorDocument, options);
+}
+export type OnboardInvestigatorMutationHookResult = ReturnType<
+  typeof useOnboardInvestigatorMutation
+>;
+export type OnboardInvestigatorMutationResult = Apollo.MutationResult<OnboardInvestigatorMutation>;
+export type OnboardInvestigatorMutationOptions = Apollo.BaseMutationOptions<
+  OnboardInvestigatorMutation,
+  OnboardInvestigatorMutationVariables
+>;
+export const GetInvestigatorDocument = gql`
+  query getInvestigator {
+    getInvestigator {
+      ...MinimalInvestigator
+    }
+  }
+  ${MinimalInvestigatorFragmentDoc}
 `;
 
 /**
