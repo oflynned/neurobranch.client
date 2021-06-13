@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+import { gql } from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -148,7 +148,7 @@ export type InvestigatorConnection = {
 
 export type InvestigatorEdge = {
   __typename?: 'InvestigatorEdge';
-  node?: Maybe<Trial>;
+  node?: Maybe<Investigator>;
   cursor: Scalars['Cursor'];
 };
 
@@ -282,6 +282,7 @@ export type ParticipantInput = {
 export type Query = {
   __typename?: 'Query';
   getInvestigator?: Maybe<Investigator>;
+  getInvestigatorByProviderUid?: Maybe<Investigator>;
   getOrganisationById?: Maybe<Organisation>;
   getOrganisationBySlug?: Maybe<Organisation>;
   getEligibleTrials?: Maybe<TrialConnection>;
@@ -492,6 +493,17 @@ export type TriggerTime = {
   minute: Scalars['Int'];
 };
 
+export type GetLoginAccountQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetLoginAccountQuery = { __typename?: 'Query' } & {
+  getInvestigatorByProviderUid?: Maybe<
+    { __typename?: 'Investigator' } & Pick<
+      Investigator,
+      'id' | 'name' | 'email' | 'createdAt' | 'isOnboarded'
+    >
+  >;
+};
+
 export type GetInvestigatorQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetInvestigatorQuery = { __typename?: 'Query' } & {
@@ -503,6 +515,67 @@ export type GetInvestigatorQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export const GetLoginAccountDocument = gql`
+  query getLoginAccount {
+    getInvestigatorByProviderUid {
+      id
+      name
+      email
+      createdAt
+      isOnboarded
+    }
+  }
+`;
+
+/**
+ * __useGetLoginAccountQuery__
+ *
+ * To run a query within a React component, call `useGetLoginAccountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLoginAccountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLoginAccountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetLoginAccountQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetLoginAccountQuery,
+    GetLoginAccountQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetLoginAccountQuery, GetLoginAccountQueryVariables>(
+    GetLoginAccountDocument,
+    options,
+  );
+}
+export function useGetLoginAccountLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetLoginAccountQuery,
+    GetLoginAccountQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetLoginAccountQuery,
+    GetLoginAccountQueryVariables
+  >(GetLoginAccountDocument, options);
+}
+export type GetLoginAccountQueryHookResult = ReturnType<
+  typeof useGetLoginAccountQuery
+>;
+export type GetLoginAccountLazyQueryHookResult = ReturnType<
+  typeof useGetLoginAccountLazyQuery
+>;
+export type GetLoginAccountQueryResult = Apollo.QueryResult<
+  GetLoginAccountQuery,
+  GetLoginAccountQueryVariables
+>;
 export const GetInvestigatorDocument = gql`
   query getInvestigator {
     getInvestigator {
@@ -533,19 +606,19 @@ export function useGetInvestigatorQuery(
   baseOptions?: Apollo.QueryHookOptions<
     GetInvestigatorQuery,
     GetInvestigatorQueryVariables
-  >
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<GetInvestigatorQuery, GetInvestigatorQueryVariables>(
     GetInvestigatorDocument,
-    options
+    options,
   );
 }
 export function useGetInvestigatorLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
     GetInvestigatorQuery,
     GetInvestigatorQueryVariables
-  >
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<

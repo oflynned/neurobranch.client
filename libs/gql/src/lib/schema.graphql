@@ -167,6 +167,7 @@ type ScaleResponse {
 
 type Query {
   getInvestigator: Investigator
+  getInvestigatorByProviderUid: Investigator
   getOrganisationById(id: String!): Organisation
   getOrganisationBySlug(slug: String!): Organisation
   getEligibleTrials(pagination: PaginationInput): TrialConnection
@@ -197,7 +198,7 @@ enum Sex {
 }
 
 type InvestigatorEdge {
-  node: Trial
+  node: Investigator
   cursor: Cursor!
 }
 
