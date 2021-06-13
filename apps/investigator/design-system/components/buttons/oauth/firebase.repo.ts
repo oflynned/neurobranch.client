@@ -1,5 +1,5 @@
-import { firebaseClient } from '../../../../providers/auth/firebase.client';
 import firebase from 'firebase';
+import { firebaseClient } from '../../../../providers/auth/firebase.client';
 
 type OAuthProvider = firebase.auth.GoogleAuthProvider;
 type UserCredential = firebase.auth.UserCredential;
@@ -13,14 +13,14 @@ export class FirebaseRepo {
 
   async createNewCredentialsAccount(
     email: string,
-    password: string
+    password: string,
   ): Promise<UserCredential> {
     return this.client.auth().createUserWithEmailAndPassword(email, password);
   }
 
   async signInWithCredentials(
     email: string,
-    password: string
+    password: string,
   ): Promise<UserCredential> {
     return this.client.auth().signInWithEmailAndPassword(email, password);
   }

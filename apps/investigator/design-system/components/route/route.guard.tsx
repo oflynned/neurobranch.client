@@ -1,7 +1,7 @@
-import { useFirebase } from '../../../providers/auth';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useAccount } from '../../../providers/auth/use-account.hook';
 import { Paragraph } from '../../building-blocks';
+import { useEffect } from 'react';
 
 const unprotectedRoutes = ['/login', '/register', '/forgot-password'];
 
@@ -10,14 +10,12 @@ const isPathProtected = (path: string): boolean =>
 
 export const RouteGuard = ({ children }) => {
   const router = useRouter();
-  const { firebaseUser, token, isLoading } = useFirebase();
+  const { isLoading, isAuthenticated } = useAccount();
 
   useEffect(() => {
     if (isLoading) {
       return;
     }
-
-    const isAuthenticated = !!firebaseUser && !!token;
 
     if (router.pathname === '/') {
       if (isAuthenticated) {
@@ -30,7 +28,7 @@ export const RouteGuard = ({ children }) => {
     if (!isAuthenticated && isPathProtected(router.pathname)) {
       router.push('/login');
     }
-  }, [isLoading, router, token, firebaseUser]);
+  }, [isLoading, isAuthenticated, router]);
 
   if (isLoading) {
     return <Paragraph>Loading...</Paragraph>;

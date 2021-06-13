@@ -1,8 +1,7 @@
 export type Optional<T> = T | undefined | null;
 
 export class BaseConfigService {
-  constructor(private readonly env: Record<string, string>) {
-  }
+  constructor(private readonly env: Record<string, string>) {}
 
   protected getValue(key: string, throwOnMissing = false): Optional<string> {
     const value = this.env[key];

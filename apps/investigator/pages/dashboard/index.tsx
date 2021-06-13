@@ -1,4 +1,4 @@
-import { Title, NavBar, Button, Paragraph, Layout } from '../../design-system';
+import { Title, NavBar, Button, Layout } from '../../design-system';
 import styles from './style.module.scss';
 import { FC } from 'react';
 import { useAccount } from '../../providers/auth/use-account.hook';
@@ -8,7 +8,7 @@ const Content: FC = ({ children }) => {
 };
 
 const Index = () => {
-  const { account, logout } = useAccount();
+  const { logout, uid, jwt } = useAccount();
 
   return (
     <Layout>
@@ -17,7 +17,7 @@ const Index = () => {
           <NavBar activePage={'HOME'} />
         </div>
         <Content>
-          <Title>Authenticated!</Title>
+          <Title>Dashboard</Title>
           <div>
             <Button
               text={'Log out'}
@@ -27,7 +27,15 @@ const Index = () => {
               }}
             />
 
-            {account && <Paragraph>Hey there, {account.name}!</Paragraph>}
+            <Button
+              text={'Copy uid'}
+              onClick={async () => navigator.clipboard.writeText(uid)}
+            />
+
+            <Button
+              text={'Copy jwt'}
+              onClick={async () => navigator.clipboard.writeText(jwt)}
+            />
           </div>
         </Content>
       </div>

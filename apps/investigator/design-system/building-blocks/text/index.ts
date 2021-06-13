@@ -1,4 +1,4 @@
-export * from './title';
 export * from './heading';
-export * from './paragraph';
 export * from './link';
+export * from './paragraph';
+export * from './title';
