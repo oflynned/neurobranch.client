@@ -1,4 +1,4 @@
-import { GetInvestigatorQuery, useGetLoginAccountLazyQuery } from '@gql';
+import { MinimalInvestigatorFragment, useGetLoginAccountLazyQuery } from '@gql';
 import firebase from 'firebase';
 import { createContext, useContext, useEffect } from 'react';
 import { getHeaders } from '../graphql/gql.headers';
@@ -13,7 +13,7 @@ const AccountContext = createContext<{
   isAuthenticated: boolean;
   isLoading: boolean;
   isFetched: boolean;
-  account: GetInvestigatorQuery | null;
+  account: MinimalInvestigatorFragment | null;
   getAccount: () => void;
   logout: () => Promise<void>;
   jwt: string | null;
@@ -81,7 +81,9 @@ export const AccountProvider = ({ children }) => {
     <AccountContext.Provider
       value={{
         firebaseUser,
-        account: account ? (JSON.parse(account) as GetInvestigatorQuery) : null,
+        account: account
+          ? (JSON.parse(account) as MinimalInvestigatorFragment)
+          : null,
         isFirebaseAuthenticated,
         isAuthenticated: !!account && isFirebaseAuthenticated,
         isLoading: isFirebaseLoading || isAccountLoading,
