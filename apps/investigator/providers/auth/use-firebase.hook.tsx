@@ -25,15 +25,18 @@ export const FirebaseProvider = ({ children }) => {
     'firebaseUser'
   );
   const [token, setToken, deleteToken] = useLocalStorage('token');
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
   const logout = async () => {
+    setIsLoading(true);
     await firebaseClient.auth().signOut();
     deleteUid();
     deleteToken();
     deleteFirebaseUser();
+    setIsLoading(false);
   };
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -54,12 +57,14 @@ export const FirebaseProvider = ({ children }) => {
     });
   }, [uid, setUid, token, setToken, setFirebaseUser]);
 
+  const user = firebaseUser
+    ? (JSON.parse(firebaseUser) as firebase.User)
+    : null;
+
   return (
     <FirebaseContext.Provider
       value={{
-        firebaseUser: firebaseUser
-          ? (JSON.parse(firebaseUser) as firebase.User)
-          : null,
+        firebaseUser: user,
         uid,
         token,
         isLoading,

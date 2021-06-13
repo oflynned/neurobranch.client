@@ -18,8 +18,6 @@ import {
 } from '../../design-system';
 import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
-import { gql } from '@apollo/client/core';
-import { useFirebase } from '../../providers/auth';
 import { useAccount } from '../../providers/auth/use-account.hook';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
@@ -84,24 +82,16 @@ const CallToAction: FC<CallToActionProps> = ({ title, subtitle, images }) => {
 };
 
 const Login = () => {
-  const { isAuthenticated } = useFirebase();
-  const { account, getAccount } = useAccount();
+  const { isAuthenticated } = useAccount();
   const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
-  const [, setIsFirebaseSigningIn] = useState<boolean>(false);
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
 
   useEffect(() => {
-    if (isAuthenticated && account) {
+    if (isAuthenticated) {
       redirectOnSignIn();
     }
-  }, [isAuthenticated, account]);
-
-  useEffect(() => {
-    if (isAuthenticated && !account) {
-      getAccount();
-    }
-  }, [isAuthenticated, getAccount, account]);
+  }, [isAuthenticated]);
 
   return (
     <Layout>
@@ -141,16 +131,7 @@ const Login = () => {
           </div>
 
           <div className={styles.oauth}>
-            <GoogleLoginButton
-              label={'Sign in with Google'}
-              onClick={() => {
-                setIsFirebaseSigningIn(true);
-              }}
-              repo={oauthRepo}
-              onSignedIn={() => {
-                setIsFirebaseSigningIn(false);
-              }}
-            />
+            <GoogleLoginButton label={'Sign in with Google'} repo={oauthRepo} />
           </div>
 
           <div className={styles.divider}>
@@ -187,7 +168,6 @@ const Login = () => {
               email={email}
               password={password}
               repo={oauthRepo}
-              onClick={() => setIsFirebaseSigningIn(true)}
               onSuccess={redirectOnSignIn}
             />
 
