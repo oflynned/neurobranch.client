@@ -87,6 +87,11 @@
     }
   },
   "license": "MIT",
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.ts": "prettier --write",
+    "*.{js,ts}": "eslint --cache --fix"
+  },
   "name": "neurobranch.client",
   "private": true,
   "scripts": {
@@ -118,11 +123,6 @@
     "typecheck": "tsc --noEmit --jsx preserve --project tsconfig.base.json",
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator"
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.ts": "prettier --write",
-    "*.{js,ts}": "eslint --cache --fix"
   },
   "version": "0.0.0"
 }
