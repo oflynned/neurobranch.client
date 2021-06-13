@@ -1,8 +1,0 @@
-query getInvestigator {
-    getInvestigator {
-        id
-        name
-        email
-        createdAt
-    }
-}
