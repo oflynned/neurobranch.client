@@ -120,7 +120,7 @@
     "schema:download:json": "apollo client:download-schema --endpoint=https://api.neurobranch.syzible.com/v1/gql libs/gql/src/lib/schema.json",
     "start": "nx serve",
     "test": "nx test",
-    "typecheck": "tsc --noEmit --jsx preserve --project tsconfig.base.json",
+    "typecheck": "tsc --noEmit --jsx preserve --project ./apps/investigator/tsconfig.json",
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator"
   },
