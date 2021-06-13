@@ -1,6 +1,5 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Paragraph } from '../text';
-import { v4 } from 'uuid';
 import styles from './style.module.scss';
 
 type Props = {
@@ -10,19 +9,16 @@ type Props = {
 };
 
 export const Checkbox: FC<Props> = ({ label, prechecked, onCheck }) => {
-  const [id] = useState<string>(v4());
-
   return (
     <div className={styles.checkbox}>
       <input
-        id={id}
         type={'checkbox'}
         defaultChecked={prechecked}
         onChange={(e) => {
           onCheck && onCheck(e.target.checked);
         }}
       />
-      <label htmlFor={id}>
+      <label>
         <Paragraph>{label}</Paragraph>
       </label>
     </div>
