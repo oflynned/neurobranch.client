@@ -1,24 +1,24 @@
-import { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { FC, useEffect, useState } from 'react';
 import {
-  Field,
-  Card,
-  Divider,
-  ChipItem,
-  Title,
-  Paragraph,
-  Heading,
-  ChipGroup,
-  Checkbox,
-  GoogleLoginButton,
-  FirebaseRepo,
-  EmailPasswordLoginButton,
   AnchorLink,
+  Card,
+  Checkbox,
+  ChipGroup,
+  ChipItem,
+  Divider,
+  EmailPasswordLoginButton,
+  Field,
+  FirebaseRepo,
+  GoogleLoginButton,
+  Heading,
   Layout,
+  Paragraph,
+  Title,
 } from '../../design-system';
-import styles from './style.module.scss';
 import { firebaseClient } from '../../providers/auth/firebase.client';
 import { useAccount } from '../../providers/auth/use-account.hook';
+import styles from './style.module.scss';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
@@ -82,16 +82,34 @@ const CallToAction: FC<CallToActionProps> = ({ title, subtitle, images }) => {
 };
 
 const Login = () => {
-  const { isAuthenticated } = useAccount();
+  const {
+    account,
+    getAccount,
+    isLoading,
+    isAuthenticated,
+    isFetched,
+    logout,
+  } = useAccount();
   const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      redirectOnSignIn();
+    if (!isAuthenticated) {
+      return;
     }
-  }, [isAuthenticated]);
+
+    if (isAuthenticated && !isLoading) {
+      getAccount();
+      return;
+    }
+  }, [isAuthenticated, account, logout, getAccount, isLoading]);
+
+  useEffect(() => {
+    if (isFetched) {
+      window.location.href = '/';
+    }
+  }, [isFetched]);
 
   return (
     <Layout>
