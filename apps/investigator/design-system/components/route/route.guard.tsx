@@ -10,7 +10,7 @@ const unprotectedRoutes = [
   '/register/onboarding',
 ];
 
-const firebaseRoutes = ['/register/onboarding'];
+const firebaseRoutes = [...unprotectedRoutes, '/register/onboarding'];
 
 const isPathProtected = (path: string): boolean =>
   !unprotectedRoutes.includes(path);
@@ -29,8 +29,6 @@ export const RouteGuard = ({ children }) => {
 
     const path = router.pathname;
 
-    console.log({ isAuthenticated, isFirebaseAuthenticated });
-
     if (path === '/') {
       if (isAuthenticated) {
         router.push('/dashboard');
@@ -43,14 +41,23 @@ export const RouteGuard = ({ children }) => {
       }
 
       router.push('/login');
+      return;
     } else {
-      if (!isFirebaseAuthenticated && isPathFirebaseProtected(path)) {
-        router.push('/login');
+      if (
+        !(isAuthenticated || isFirebaseAuthenticated) &&
+        !isPathProtected(path)
+      ) {
         return;
       }
 
       if (!isAuthenticated && isPathProtected(path)) {
         router.push('/login');
+        return;
+      }
+
+      if (!isFirebaseAuthenticated && isPathFirebaseProtected(path)) {
+        router.push('/login');
+        return;
       }
     }
   }, [isFirebaseAuthenticated, isLoading, isAuthenticated, router]);

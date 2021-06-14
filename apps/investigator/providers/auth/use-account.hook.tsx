@@ -1,7 +1,6 @@
 import { MinimalInvestigatorFragment, useGetLoginAccountLazyQuery } from '@gql';
 import firebase from 'firebase';
 import { createContext, useContext, useEffect } from 'react';
-import { getHeaders } from '../graphql/gql.headers';
 import { useLocalStorage } from '../local-storage/local-storage.provider';
 import { useFirebase } from './use-firebase.hook';
 
@@ -43,7 +42,14 @@ export const AccountProvider = ({ children }) => {
   const [
     getAccount,
     { data, loading: isAccountLoading, called: isAccountFetched },
-  ] = useGetLoginAccountLazyQuery();
+  ] = useGetLoginAccountLazyQuery({
+    context: {
+      headers: {
+        'x-firebase-uid': firebaseUid,
+        authorization: `Bearer ${jwtToken}`,
+      },
+    },
+  });
   const [
     account,
     setLocalStorageAccount,
@@ -73,9 +79,9 @@ export const AccountProvider = ({ children }) => {
 
   useEffect(() => {
     if (isFirebaseAuthenticated) {
-      getAccount({ context: getHeaders(firebaseUid, jwtToken) });
+      getAccount();
     }
-  }, [isFirebaseAuthenticated, getAccount, firebaseUid, jwtToken]);
+  }, [isFirebaseAuthenticated, getAccount]);
 
   return (
     <AccountContext.Provider

@@ -1,14 +1,13 @@
-import { AppProps } from 'next/app';
-import { FirebaseProvider } from '../providers/auth';
-import { Reset } from 'styled-reset';
-import { RouteGuard } from '../design-system';
-
-import './reset.scss';
-import './app.scss';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { AccountProvider } from '../providers/auth/use-account.hook';
+import { AppProps } from 'next/app';
+import { Reset } from 'styled-reset';
 import { ConfigService } from '../config/config.service';
+import { RouteGuard } from '../design-system';
+import { FirebaseProvider } from '../providers/auth';
+import { AccountProvider } from '../providers/auth/use-account.hook';
 import { ConfigProvider } from '../providers/config/config.provider';
+import './app.scss';
+import './reset.scss';
 
 const App = ({ Component, pageProps }: AppProps) => {
   const config = new ConfigService();

@@ -1,10 +1,8 @@
-import { useState } from 'react';
+import { Sex, useOnboardInvestigatorMutation } from '@gql';
+import { useEffect, useState } from 'react';
 import { Button, Field, Layout, Title } from '../../../design-system';
 import { useAccount } from '../../../providers/auth/use-account.hook';
 import styles from './style.module.scss';
-import { Sex, useOnboardInvestigatorMutation } from '@gql';
-import { getHeaders } from '../../../providers/graphql/gql.headers';
-import { useEffect } from 'react';
 
 const Onboarding = () => {
   const { firebaseUser, uid, jwt, logout } = useAccount();
@@ -21,11 +19,18 @@ const Onboarding = () => {
     { loading: createAccountLoading },
   ] = useOnboardInvestigatorMutation({
     variables: { name, sex, dateOfBirth },
-    context: getHeaders(uid, jwt),
+    context: {
+      headers: {
+        'x-firebase-uid': uid,
+        authorization: `Bearer ${jwt}`,
+      },
+    },
   });
 
   useEffect(() => {
-    window.location.href = '/';
+    if (isFetched) {
+      window.location.href = '/';
+    }
   }, [isFetched]);
 
   return (
@@ -57,7 +62,7 @@ const Onboarding = () => {
           <Button
             text={'Next'}
             onClick={async () => {
-              createAccount();
+              await createAccount();
               getAccount();
             }}
           />
