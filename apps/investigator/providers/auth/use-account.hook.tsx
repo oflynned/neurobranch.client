@@ -1,6 +1,6 @@
 import { MinimalInvestigatorFragment, useGetLoginAccountLazyQuery } from '@gql';
 import firebase from 'firebase';
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useCallback, useContext, useEffect } from 'react';
 import { useLocalStorage } from '../local-storage/local-storage.provider';
 import { useFirebase } from './use-firebase.hook';
 
@@ -14,7 +14,7 @@ const AccountContext = createContext<{
   isFetched: boolean;
   account: MinimalInvestigatorFragment | null;
   getAccount: () => void;
-  logout: () => Promise<void>;
+  logout: () => Promise<void> | void;
   jwt: string | null;
   uid: string | null;
 }>({
@@ -39,6 +39,7 @@ export const AccountProvider = ({ children }) => {
     isLoading: isFirebaseLoading,
     logout: firebaseLogout,
   } = useFirebase();
+
   const [
     getAccount,
     { data, loading: isAccountLoading, called: isAccountFetched },
@@ -50,38 +51,39 @@ export const AccountProvider = ({ children }) => {
       },
     },
   });
+
   const [
     account,
     setLocalStorageAccount,
     deleteLocalStorageAccount,
   ] = useLocalStorage('account');
 
-  const logoutAccount = async (): Promise<void> => {
+  const logoutAccount = useCallback(async (): Promise<void> => {
     await firebaseLogout();
     deleteLocalStorageAccount();
-  };
+  }, [deleteLocalStorageAccount, firebaseLogout]);
+
+  const isLoading = isAccountLoading || isFirebaseLoading;
 
   useEffect(() => {
-    if (isAccountLoading || isFirebaseLoading) {
+    if (isLoading || !isAccountFetched) {
       return;
     }
 
     if (data?.getInvestigatorByProviderUid) {
       setLocalStorageAccount(JSON.stringify(data.getInvestigatorByProviderUid));
+    } else {
+      // otherwise the returned payload is nullish
+      logoutAccount();
     }
   }, [
-    isFirebaseLoading,
-    isAccountLoading,
     isFirebaseAuthenticated,
     data,
     setLocalStorageAccount,
+    logoutAccount,
+    isLoading,
+    isAccountFetched,
   ]);
-
-  useEffect(() => {
-    if (isFirebaseAuthenticated) {
-      getAccount();
-    }
-  }, [isFirebaseAuthenticated, getAccount]);
 
   return (
     <AccountContext.Provider
