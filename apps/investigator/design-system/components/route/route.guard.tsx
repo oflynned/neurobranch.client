@@ -20,13 +20,20 @@ const isPathFirebaseProtected = (path: string): boolean =>
 
 export const RouteGuard = ({ children }) => {
   const router = useRouter();
-  const { isLoading, isAuthenticated, isFirebaseAuthenticated } = useAccount();
+  const {
+    isLoading,
+    isAuthenticated,
+    isFirebaseAuthenticated,
+    getAccount,
+  } = useAccount();
 
   useEffect(() => {
-    if (isLoading) {
-      return;
+    if (!isAuthenticated && isFirebaseAuthenticated) {
+      getAccount();
     }
+  }, [getAccount, isAuthenticated, isFirebaseAuthenticated]);
 
+  useEffect(() => {
     const path = router.pathname;
 
     if (path === '/') {
@@ -60,10 +67,10 @@ export const RouteGuard = ({ children }) => {
         return;
       }
     }
-  }, [isFirebaseAuthenticated, isLoading, isAuthenticated, router]);
+  }, [isFirebaseAuthenticated, isAuthenticated, router]);
 
   if (isLoading) {
-    return <Paragraph>Loading...</Paragraph>;
+    return <Paragraph>Loading auth...</Paragraph>;
   }
 
   return children;
