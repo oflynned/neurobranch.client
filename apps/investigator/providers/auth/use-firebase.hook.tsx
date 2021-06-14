@@ -21,10 +21,8 @@ const FirebaseContext = createContext<{
 
 export const FirebaseProvider = ({ children }) => {
   const [uid, setUid, deleteUid] = useLocalStorage('uid');
-  const [firebaseUser, setFirebaseUser, deleteFirebaseUser] = useLocalStorage(
-    'firebaseUser',
-  );
   const [token, setToken, deleteToken] = useLocalStorage('token');
+  const [user, setUser, clearUser] = useLocalStorage('firebaseUser');
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -34,7 +32,7 @@ export const FirebaseProvider = ({ children }) => {
     await firebaseClient.auth().signOut();
     deleteUid();
     deleteToken();
-    deleteFirebaseUser();
+    clearUser();
     setIsLoading(false);
   };
 
@@ -46,7 +44,7 @@ export const FirebaseProvider = ({ children }) => {
       setIsLoading(true);
 
       if (user) {
-        setFirebaseUser(JSON.stringify(user));
+        setUser(JSON.stringify(user.toJSON()));
         setUid(user.uid);
 
         const token = await user.getIdToken();
@@ -55,16 +53,12 @@ export const FirebaseProvider = ({ children }) => {
 
       setIsLoading(false);
     });
-  }, [uid, setUid, token, setToken, setFirebaseUser]);
-
-  const user = firebaseUser
-    ? (JSON.parse(firebaseUser) as firebase.User)
-    : null;
+  }, [uid, setUid, token, setToken, setUser]);
 
   return (
     <FirebaseContext.Provider
       value={{
-        firebaseUser: user,
+        firebaseUser: user ? (JSON.parse(user) as firebase.User) : null,
         uid,
         token,
         isLoading,

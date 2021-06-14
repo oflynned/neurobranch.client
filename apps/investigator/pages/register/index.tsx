@@ -1,23 +1,21 @@
-import { FC, useState } from 'react';
 import Image from 'next/image';
+import { useState } from 'react';
 import {
-  Field,
-  Card,
-  Divider,
-  ChipItem,
-  Title,
-  Paragraph,
-  Heading,
-  ChipGroup,
-  GoogleLoginButton,
-  FirebaseRepo,
-  EmailPasswordLoginButton,
   AnchorLink,
-  Layout,
+  ChipGroup,
+  ChipItem,
+  Divider,
+  EmailPasswordLoginButton,
+  Field,
+  FirebaseRepo,
+  GoogleLoginButton,
+  Page,
+  Paragraph,
+  Title,
 } from '../../design-system';
-import styles from './style.module.scss';
-import { firebaseClient } from '../../providers/auth/firebase.client';
 import { CallToAction } from '../../design-system/components/call-to-action';
+import { firebaseClient } from '../../providers/auth/firebase.client';
+import styles from './style.module.scss';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
@@ -31,10 +29,6 @@ const chips: ChipItem[] = [
 
 type Role = 'INVESTIGATOR' | 'CANDIDATE';
 
-const redirectOnSignIn = () => {
-  window.location.href = '/';
-};
-
 const Login = () => {
   const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,7 +39,7 @@ const Login = () => {
   const isInvestigator = accountType === 'INVESTIGATOR';
 
   return (
-    <Layout>
+    <Page>
       <div className={styles.page}>
         <section className={styles.login}>
           <div className={styles.intro}>
@@ -93,7 +87,9 @@ const Login = () => {
               label={'Sign up with Google'}
               onClick={() => setIsLoading(true)}
               repo={oauthRepo}
-              onSignedIn={redirectOnSignIn}
+              onSignedIn={() => {
+                window.location.href = '/';
+              }}
             />
           </div>
 
@@ -136,7 +132,9 @@ const Login = () => {
               password={password}
               repo={oauthRepo}
               onClick={() => setIsLoading(true)}
-              onSuccess={redirectOnSignIn}
+              onSuccess={() => {
+                window.location.href = '/';
+              }}
             />
 
             <div className={styles.haveAccount}>
@@ -193,7 +191,7 @@ const Login = () => {
           </div>
         </section>
       </div>
-    </Layout>
+    </Page>
   );
 };
 

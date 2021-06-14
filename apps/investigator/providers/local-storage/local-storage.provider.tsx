@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export const useLocalStorage = (key: string, defaultValue = '') => {
-  const [value, setValue] = useState(defaultValue);
+export function useLocalStorage(key: string, defaultValue = '') {
+  const [value, setValue] = useState<string>(defaultValue);
   const deleteValue = () => localStorage.removeItem(key);
 
   useEffect(() => {
@@ -17,4 +17,4 @@ export const useLocalStorage = (key: string, defaultValue = '') => {
   }, [key, value]);
 
   return [value, setValue, deleteValue] as const;
-};
+}

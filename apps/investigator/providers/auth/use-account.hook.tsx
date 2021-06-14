@@ -1,6 +1,7 @@
 import { MinimalInvestigatorFragment, useGetLoginAccountLazyQuery } from '@gql';
 import firebase from 'firebase/app';
 import { createContext, useCallback, useContext, useEffect } from 'react';
+import { LoadingPage } from '../../design-system';
 import { useLocalStorage } from '../local-storage/local-storage.provider';
 import { useFirebase } from './use-firebase.hook';
 
@@ -61,6 +62,7 @@ export const AccountProvider = ({ children }) => {
   const logoutAccount = useCallback(async (): Promise<void> => {
     await firebaseLogout();
     deleteLocalStorageAccount();
+    window.location.href = '/';
   }, [deleteLocalStorageAccount, firebaseLogout]);
 
   const isLoading = isAccountLoading || isFirebaseLoading;
@@ -102,7 +104,7 @@ export const AccountProvider = ({ children }) => {
         uid: firebaseUid,
       }}
     >
-      {children}
+      <LoadingPage loading={isLoading}>{children}</LoadingPage>
     </AccountContext.Provider>
   );
 };

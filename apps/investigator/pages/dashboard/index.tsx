@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button, Heading, Layout, NavBar, Title } from '../../design-system';
+import { Button, Heading, NavBar, Page, Title } from '../../design-system';
 import { useAccount } from '../../providers/auth/use-account.hook';
 import styles from './style.module.scss';
 
@@ -8,14 +8,10 @@ const Content: FC = ({ children }) => {
 };
 
 const Index = () => {
-  const { logout, uid, jwt, isLoading, account } = useAccount();
-
-  if (isLoading) {
-    return <div>Loading dashboard...</div>;
-  }
+  const { logout, uid, jwt, account } = useAccount();
 
   return (
-    <Layout>
+    <Page>
       <div className={styles.page}>
         <div className={styles.nav}>
           <NavBar activePage={'HOME'} />
@@ -24,13 +20,7 @@ const Index = () => {
           <Title>Dashboard</Title>
           <Heading>Welcome back {account.name}</Heading>
           <div>
-            <Button
-              text={'Log out'}
-              onClick={async () => {
-                await logout();
-                window.location.href = '/';
-              }}
-            />
+            <Button text={'Log out'} onClick={async () => logout()} />
 
             <Button
               text={'Copy uid'}
@@ -59,7 +49,7 @@ const Index = () => {
           </div>
         </Content>
       </div>
-    </Layout>
+    </Page>
   );
 };
 

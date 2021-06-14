@@ -1,6 +1,6 @@
 import { Sex, useOnboardInvestigatorMutation } from '@gql';
 import { useEffect, useState } from 'react';
-import { Button, Field, Layout, Title } from '../../../design-system';
+import { Button, Field, Page, Title } from '../../../design-system';
 import { useAccount } from '../../../providers/auth/use-account.hook';
 import styles from './style.module.scss';
 
@@ -37,7 +37,7 @@ const Onboarding = () => {
   }, [isFetched]);
 
   return (
-    <Layout>
+    <Page>
       <div className={styles.page}>
         <Title>Onboarding</Title>
         <div>
@@ -77,7 +77,7 @@ const Onboarding = () => {
           />
         </div>
       </div>
-    </Layout>
+    </Page>
   );
 };
 

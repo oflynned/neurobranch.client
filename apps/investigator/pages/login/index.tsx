@@ -10,7 +10,7 @@ import {
   Field,
   FirebaseRepo,
   GoogleLoginButton,
-  Layout,
+  Page,
   Paragraph,
   Title,
 } from '../../design-system';
@@ -31,49 +31,32 @@ const chips: ChipItem[] = [
 
 type Role = 'INVESTIGATOR' | 'CANDIDATE';
 
-const redirectOnSignIn = () => {
-  window.location.href = '/';
-};
-
 const Login = () => {
   const {
-    account,
     getAccount,
-    isLoading,
     isAuthenticated,
     isFirebaseAuthenticated,
     isFetched,
-    logout,
   } = useAccount();
+
   const [accountType, setAccountType] = useState<Role>('INVESTIGATOR');
   const [email, setEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
 
   useEffect(() => {
-    if (isLoading) {
-      return;
-    }
-
-    if (isFirebaseAuthenticated && !isAuthenticated && !isFetched) {
-      getAccount();
-      return;
-    }
-
-    if (isAuthenticated && isFetched) {
+    if (isAuthenticated) {
       window.location.href = '/';
     }
-  }, [
-    isAuthenticated,
-    account,
-    logout,
-    getAccount,
-    isLoading,
-    isFirebaseAuthenticated,
-    isFetched,
-  ]);
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (isFirebaseAuthenticated && !isAuthenticated && !isFetched) {
+      getAccount();
+    }
+  }, [getAccount, isAuthenticated, isFetched, isFirebaseAuthenticated]);
 
   return (
-    <Layout>
+    <Page>
       <div className={styles.page}>
         <section className={styles.login}>
           <div className={styles.intro}>
@@ -147,7 +130,9 @@ const Login = () => {
               email={email}
               password={password}
               repo={oauthRepo}
-              onSuccess={redirectOnSignIn}
+              onSuccess={() => {
+                window.location.href = '/';
+              }}
             />
 
             <div className={styles.noAccount}>
@@ -205,7 +190,7 @@ const Login = () => {
           </div>
         </section>
       </div>
-    </Layout>
+    </Page>
   );
 };
 

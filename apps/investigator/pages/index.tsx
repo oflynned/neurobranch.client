@@ -1,5 +1,7 @@
+import { Page } from '../design-system';
+
 export function Index() {
-  return <div />;
+  return <Page />;
 }
 
 export default Index;
