@@ -8,7 +8,7 @@ const Content: FC = ({ children }) => {
 };
 
 const Index = () => {
-  const { logout, uid, jwt, account } = useAccount();
+  const { uid, jwt, account } = useAccount();
 
   return (
     <Page>
@@ -18,10 +18,12 @@ const Index = () => {
         </div>
         <Content>
           <Title>Dashboard</Title>
-          <Heading>Welcome back {account.name}</Heading>
-          <div>
-            <Button text={'Log out'} onClick={async () => logout()} />
 
+          <div>
+            <Heading>Hey {account.name}</Heading>
+          </div>
+
+          <div>
             <Button
               text={'Copy uid'}
               onClick={async () => navigator.clipboard.writeText(uid)}
