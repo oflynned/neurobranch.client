@@ -38,8 +38,8 @@ jobs:
       - name: Check types
         run: npm run typecheck
 
-      - name: Run tests
-        run: npm run test
+#      - name: Run tests
+#        run: npm run test
 
       - name: Bump version
         uses: 'phips28/gh-action-bump-version@master'
