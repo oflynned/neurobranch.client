@@ -1,6 +1,7 @@
+import Image from 'next/image';
 import { FC } from 'react';
+import { Heading } from '../../index';
 import styles from './style.module.scss';
-import { LoadingIndicator } from '../../index';
 
 type Props = {
   loading: boolean;
@@ -8,13 +9,19 @@ type Props = {
 
 export const LoadingPage: FC<Props> = ({ children, loading }) => {
   return (
-    <div className={styles.container}>
-      {loading && (
-        <div className={styles.indicator}>
-          <LoadingIndicator />
+    <>
+      {loading ? (
+        <div className={styles.container}>
+          <Image
+            src={'/static/images/neurobranch.png'}
+            width={192}
+            height={92}
+          />
+          <Heading>Loading page...</Heading>
         </div>
+      ) : (
+        children
       )}
-      <div className={loading ? styles.blur : undefined}>{children}</div>
-    </div>
+    </>
   );
 };
