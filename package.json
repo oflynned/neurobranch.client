@@ -121,5 +121,5 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator"
   },
-  "version": "0.1.2"
+  "version": "0.1.3"
 }
