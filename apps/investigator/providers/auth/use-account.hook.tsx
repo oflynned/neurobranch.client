@@ -1,5 +1,5 @@
 import { MinimalInvestigatorFragment, useGetLoginAccountLazyQuery } from '@gql';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { createContext, useCallback, useContext, useEffect } from 'react';
 import { useLocalStorage } from '../local-storage/local-storage.provider';
 import { useFirebase } from './use-firebase.hook';

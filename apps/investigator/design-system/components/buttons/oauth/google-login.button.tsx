@@ -1,8 +1,9 @@
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import { FC } from 'react';
-import firebase from 'firebase';
 import { Button } from '../../../index';
-import { FirebaseRepo } from './firebase.repo';
 import { CredentialSignInException } from './exceptions';
+import { FirebaseRepo } from './firebase.repo';
 
 interface Props {
   label: string;

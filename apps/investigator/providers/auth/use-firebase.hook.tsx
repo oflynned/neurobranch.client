@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext, createContext } from 'react';
-import firebase from 'firebase';
-import { firebaseClient } from './firebase.client';
+import firebase from 'firebase/app';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useLocalStorage } from '../local-storage/local-storage.provider';
+import { firebaseClient } from './firebase.client';
 
 const FirebaseContext = createContext<{
   firebaseUser: firebase.User | null;
@@ -22,7 +22,7 @@ const FirebaseContext = createContext<{
 export const FirebaseProvider = ({ children }) => {
   const [uid, setUid, deleteUid] = useLocalStorage('uid');
   const [firebaseUser, setFirebaseUser, deleteFirebaseUser] = useLocalStorage(
-    'firebaseUser'
+    'firebaseUser',
   );
   const [token, setToken, deleteToken] = useLocalStorage('token');
 
