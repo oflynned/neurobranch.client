@@ -5,15 +5,18 @@ import { useAccount } from '../../../providers/auth/use-account.hook';
 import styles from './style.module.scss';
 
 const Onboarding = () => {
-  const { firebaseUser, uid, jwt, logout } = useAccount();
-  const [name, setName] = useState(firebaseUser.displayName);
-  const [sex, setSex] = useState(Sex.Male);
-  const [dateOfBirth, setDateOfBirth] = useState('1990-01-01');
   const {
+    firebaseUser,
+    uid,
+    jwt,
+    logout,
     getAccount,
     isLoading: fetchAccountLoading,
     isFetched,
   } = useAccount();
+  const [name, setName] = useState(firebaseUser.displayName);
+  const [sex, setSex] = useState(Sex.Male);
+  const [dateOfBirth, setDateOfBirth] = useState('1990-01-01');
   const [
     createAccount,
     { loading: createAccountLoading },
@@ -43,7 +46,7 @@ const Onboarding = () => {
             hint={firebaseUser.displayName}
             initialValue={firebaseUser.displayName}
             onTextEntered={(name: string) => setName(name.trim())}
-            showError={name.trim().length === 0}
+            showError={name.length === 0}
           />
           <Field
             label={'Email'}
@@ -70,7 +73,6 @@ const Onboarding = () => {
             text={'Cancel'}
             onClick={async () => {
               await logout();
-              window.location.href = '/';
             }}
           />
         </div>

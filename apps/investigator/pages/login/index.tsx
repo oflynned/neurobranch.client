@@ -14,10 +14,10 @@ import {
   Paragraph,
   Title,
 } from '../../design-system';
+import { CallToAction } from '../../design-system/components/call-to-action';
 import { firebaseClient } from '../../providers/auth/firebase.client';
 import { useAccount } from '../../providers/auth/use-account.hook';
 import styles from './style.module.scss';
-import { CallToAction } from '../../design-system/components/call-to-action';
 
 const oauthRepo = new FirebaseRepo(firebaseClient);
 const chips: ChipItem[] = [
@@ -41,6 +41,7 @@ const Login = () => {
     getAccount,
     isLoading,
     isAuthenticated,
+    isFirebaseAuthenticated,
     isFetched,
     logout,
   } = useAccount();
@@ -49,23 +50,27 @@ const Login = () => {
   const [password, setPassword] = useState<string>(null);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (isLoading) {
       return;
     }
 
-    console.log({ isAuthenticated, isLoading });
-    if (isAuthenticated && !isLoading) {
+    if (isFirebaseAuthenticated && !isAuthenticated && !isFetched) {
       getAccount();
       return;
     }
-  }, [isAuthenticated, account, logout, getAccount, isLoading]);
 
-  useEffect(() => {
-    console.log({ isFetched });
-    if (isFetched) {
+    if (isAuthenticated && isFetched) {
       window.location.href = '/';
     }
-  }, [isFetched]);
+  }, [
+    isAuthenticated,
+    account,
+    logout,
+    getAccount,
+    isLoading,
+    isFirebaseAuthenticated,
+    isFetched,
+  ]);
 
   return (
     <Layout>

@@ -1,14 +1,18 @@
-import { Title, NavBar, Button, Layout, Heading } from '../../design-system';
-import styles from './style.module.scss';
 import { FC } from 'react';
+import { Button, Heading, Layout, NavBar, Title } from '../../design-system';
 import { useAccount } from '../../providers/auth/use-account.hook';
+import styles from './style.module.scss';
 
 const Content: FC = ({ children }) => {
   return <main className={styles.content}>{children}</main>;
 };
 
 const Index = () => {
-  const { logout, uid, jwt, account } = useAccount();
+  const { logout, uid, jwt, isLoading, account } = useAccount();
+
+  if (isLoading) {
+    return <div>Loading dashboard...</div>;
+  }
 
   return (
     <Layout>
@@ -36,6 +40,21 @@ const Index = () => {
             <Button
               text={'Copy jwt'}
               onClick={async () => navigator.clipboard.writeText(jwt)}
+            />
+
+            <Button
+              text={'Copy headers'}
+              onClick={async () => {
+                const data = JSON.stringify(
+                  {
+                    Authorization: `Bearer ${jwt}`,
+                    'x-firebase-uid': uid,
+                  },
+                  null,
+                  2,
+                );
+                await navigator.clipboard.writeText(data);
+              }}
             />
           </div>
         </Content>
