@@ -1,11 +1,11 @@
-import { FC } from 'react';
 import Head from 'next/head';
+import { FC } from 'react';
 
 type Props = {
   title?: string;
 };
 
-export const Layout: FC<Props> = ({ title, children }) => {
+export const Page: FC<Props> = ({ title, children }) => {
   return (
     <div>
       <Head>
