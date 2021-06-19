@@ -7,7 +7,6 @@ import { FirebaseProvider } from '../providers/auth';
 import { AccountProvider } from '../providers/auth/use-account.hook';
 import { ConfigProvider } from '../providers/config/config.provider';
 import './app.scss';
-import './reset.scss';
 
 const App = ({ Component, pageProps }: AppProps) => {
   const config = new ConfigService();

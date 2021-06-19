@@ -1,5 +1,12 @@
-import { FC } from 'react';
-import { Button, Heading, NavBar, Page, Title } from '../../design-system';
+import { FC, useState } from 'react';
+import {
+  Button,
+  Card,
+  Heading,
+  NavBar,
+  Page,
+  Title,
+} from '../../design-system';
 import { useAccount } from '../../providers/auth/use-account.hook';
 import styles from './style.module.scss';
 
@@ -7,8 +14,15 @@ const Content: FC = ({ children }) => {
   return <main className={styles.content}>{children}</main>;
 };
 
+const localDate = new Date().toLocaleString('en-IE', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
+
 const Index = () => {
   const { uid, jwt, account } = useAccount();
+  const [date] = useState(localDate);
 
   return (
     <Page>
@@ -17,25 +31,23 @@ const Index = () => {
           <NavBar activePage={'HOME'} />
         </div>
         <Content>
-          <Title>Dashboard</Title>
+          <Title>Organisations</Title>
+          <Heading>{date}</Heading>
+
+          <Card>
+            <Title size={'lg'}>Hey {account.name}</Title>
+          </Card>
 
           <div>
-            <Heading>Hey {account.name}</Heading>
-          </div>
+            <Button onClick={async () => navigator.clipboard.writeText(uid)}>
+              Copy uid
+            </Button>
 
-          <div>
-            <Button
-              text={'Copy uid'}
-              onClick={async () => navigator.clipboard.writeText(uid)}
-            />
-
-            <Button
-              text={'Copy jwt'}
-              onClick={async () => navigator.clipboard.writeText(jwt)}
-            />
+            <Button onClick={async () => navigator.clipboard.writeText(jwt)}>
+              Copy jwt
+            </Button>
 
             <Button
-              text={'Copy headers'}
               onClick={async () => {
                 const data = JSON.stringify(
                   {
@@ -47,7 +59,9 @@ const Index = () => {
                 );
                 await navigator.clipboard.writeText(data);
               }}
-            />
+            >
+              Copy headers
+            </Button>
           </div>
         </Content>
       </div>

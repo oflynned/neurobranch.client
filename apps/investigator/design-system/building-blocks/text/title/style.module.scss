@@ -3,7 +3,35 @@
 .text {
   font-family: 'Lato', 'sans-serif';
   font-weight: bold;
-  font-size: 30px;
-  line-height: 45px;
   color: $little-mermaid;
+
+  &.xxl {
+   font-size: $font-xxl;
+   line-height: $font-xxl-height;
+  }
+
+  &.xl {
+   font-size: $font-xl;
+   line-height: $font-xl-height;
+  }
+
+  &.lg {
+   font-size: $font-lg;
+   line-height: $font-lg-height;
+  }
+
+  &.md {
+   font-size: $font-md;
+   line-height: $font-md-height;
+  }
+
+  &.sm {
+   font-size: $font-sm;
+   line-height: $font-sm-height;
+  }
+
+  &.xs {
+   font-size: $font-xs;
+   line-height: $font-xs-height;
+  }
 }

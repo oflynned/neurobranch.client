@@ -4,7 +4,6 @@ import { Paragraph } from '../text';
 import styles from './style.module.scss';
 
 export interface BaseButtonProps {
-  text: string;
   matchParent?: boolean;
   onClick?: () => Promise<void> | void;
   icon?: string;
@@ -13,7 +12,7 @@ export interface BaseButtonProps {
 }
 
 export const Button: FC<BaseButtonProps> = ({
-  text,
+  children,
   onClick,
   icon,
   iconDescription = '',
@@ -29,7 +28,7 @@ export const Button: FC<BaseButtonProps> = ({
           <Image src={icon} alt={iconDescription} width={24} height={24} />
         )}
         <div className={styles.text}>
-          <Paragraph>{text}</Paragraph>
+          <Paragraph>{children}</Paragraph>
         </div>
       </div>
     </button>
