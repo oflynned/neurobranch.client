@@ -1,1 +1,1 @@
-export { AnchorLink } from './link';
+export { HrefLink } from './link';
