@@ -1,11 +1,22 @@
+import { lorem } from 'faker';
 import { FC } from 'react';
-import { Button, Heading, NavBar, Page, Title } from '../../design-system';
+import {
+  Button,
+  Card,
+  Heading,
+  NavBar,
+  Page,
+  Paragraph,
+  Title,
+} from '../../design-system';
 import { useAccount } from '../../providers/auth/use-account.hook';
 import styles from './style.module.scss';
 
 const Content: FC = ({ children }) => {
   return <main className={styles.content}>{children}</main>;
 };
+
+const blurb = lorem.paragraph(3);
 
 const Index = () => {
   const { uid, jwt, account } = useAccount();
@@ -19,9 +30,10 @@ const Index = () => {
         <Content>
           <Title>Dashboard</Title>
 
-          <div>
+          <Card margin={{ top: 'md', bottom: 'md' }} maxWidth={'512px'}>
             <Heading>Hey {account.name}</Heading>
-          </div>
+            <Paragraph margin={{ top: 'sm' }}>{blurb}</Paragraph>
+          </Card>
 
           <div>
             <Button
