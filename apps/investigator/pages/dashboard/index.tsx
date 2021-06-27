@@ -44,19 +44,19 @@ const Index = () => {
           </Card>
 
           <Button
-            margin={{ all: 'md' }}
+            margin={{ top: 'md' }}
             text={'Copy uid'}
             onClick={async () => navigator.clipboard.writeText(uid)}
           />
 
           <Button
-            margin={{ all: 'md' }}
+            margin={{ top: 'md' }}
             text={'Copy jwt'}
             onClick={async () => navigator.clipboard.writeText(jwt)}
           />
 
           <Button
-            margin={{ all: 'md' }}
+            margin={{ top: 'md' }}
             text={'Copy headers'}
             onClick={async () => {
               const data = JSON.stringify(
