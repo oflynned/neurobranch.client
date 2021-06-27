@@ -12,7 +12,10 @@ type Spatiality = {
   left?: Dimension;
 };
 
-const getSpacing = (theme: DefaultTheme, spatiality?: Spatiality): string => {
+export const getSpacing = (
+  theme: DefaultTheme,
+  spatiality?: Spatiality,
+): string => {
   if (!spatiality) {
     return '0';
   }
@@ -39,17 +42,40 @@ export type BaseProps = HTMLAttributes<HTMLDivElement> & {
   width?: string;
   maxHeight?: string;
   height?: string;
+  centre?: boolean;
 };
 
 export const BaseView = styled.div<BaseProps>(
-  ({ theme, margin, padding, fill, width, maxWidth, height, maxHeight }) => css`
-    max-width: ${maxWidth ?? '100%'};
-    max-height: ${maxHeight ?? '100%'};
-    height: ${height ?? 'auto'};
-    width: ${width ?? fill === 'WRAP_CONTENT' ? 'fit-content' : '100%'};
-    padding: ${getSpacing(theme, padding)};
-    margin: ${getSpacing(theme, margin)};
-  `,
+  ({
+    theme,
+    margin,
+    padding,
+    fill,
+    width,
+    maxWidth,
+    height,
+    maxHeight,
+    centre,
+  }) => {
+    const centred = [
+      theme.spacing[margin?.top ?? 'xs'] + 'px',
+      'auto',
+      theme.spacing[margin?.bottom ?? 'xs'] + 'px',
+      'auto',
+    ].join(' ');
+
+    const spacing = centre ? centred : getSpacing(theme, margin);
+
+    return css`
+      display: flex;
+      max-width: ${maxWidth ?? '100%'};
+      max-height: ${maxHeight ?? '100%'};
+      height: ${height ?? 'auto'};
+      width: ${width ?? fill === 'WRAP_CONTENT' ? 'fit-content' : '100%'};
+      padding: ${getSpacing(theme, padding)};
+      margin: ${spacing};
+    `;
+  },
 );
 
 BaseView.defaultProps = {
