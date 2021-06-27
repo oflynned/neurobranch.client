@@ -49,8 +49,10 @@ const typography: Record<Dimension, { size: string; height: string }> = {
 const theme = {
   primary: palette.buttonBlue,
   secondary: palette.redEye,
+  accent: palette.acapulcoCliffs,
   textPrimary: palette.littleMermaid,
   textSecondary: palette.pelicanBay,
+  textAccent: palette.acapulcoCliffs,
   shadow: 'rgba(100, 100, 111, 0.2)',
   border: palette.orochimaru,
 };
@@ -67,6 +69,9 @@ export const lightTheme = {
     solid: `1px solid ${theme.border}`,
   },
   shadow: {
+    xs: `${shadows.default} 0 0 ${spacing.xs}px 0`,
+    sm: `${shadows.default} 0 0 ${spacing.sm}px 0`,
+    md: `${shadows.default} 0 0 ${spacing.md}px 0`,
     lg: `${shadows.default} 0 0 ${spacing.lg}px 0`,
     xl: `${shadows.default} 0 0 ${spacing.xl}px 0`,
     xxl: `${shadows.default} 0 0 ${spacing.xxl}px 0`,
