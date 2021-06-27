@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import {
-  AnchorLink,
   ChipGroup,
   ChipItem,
   Divider,
@@ -9,6 +8,7 @@ import {
   Field,
   FirebaseRepo,
   GoogleLoginButton,
+  HrefLink,
   Page,
   Paragraph,
   Title,
@@ -139,7 +139,7 @@ const Login = () => {
 
             <div className={styles.haveAccount}>
               <Paragraph>Already have an account?</Paragraph>
-              <AnchorLink href={'/login'}>Login here.</AnchorLink>
+              <HrefLink href={'/login'}>Login here.</HrefLink>
             </div>
           </div>
         </section>

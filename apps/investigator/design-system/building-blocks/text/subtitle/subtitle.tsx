@@ -7,14 +7,14 @@ type Props = BaseProps;
 const Text = styled.h2<Props>(
   ({ theme }) => `
   font-weight: bold;
-  font-family: ${theme.fonts.primary}, ${theme.fonts.fallback};
-  font-size: ${theme.typography.md.size};
-  line-height: ${theme.typography.md.height};
-  color: ${theme.colours.textPrimary};
+  font-family: ${theme.fonts.secondary}, ${theme.fonts.fallback};
+  font-size: ${theme.typography.sm.size};
+  line-height: ${theme.typography.sm.height};
+  color: ${theme.colours.textSecondary};
 `,
 );
 
-export const Heading: FC<Props> = ({ children, ...props }) => (
+export const Subtitle: FC<Props> = ({ children, ...props }) => (
   <BaseView {...props}>
     <Text>{children}</Text>
   </BaseView>

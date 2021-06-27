@@ -1,2 +1,1 @@
-export { Button } from './button.base';
-export type { BaseButtonProps } from './button.base';
+export { Button } from './button';

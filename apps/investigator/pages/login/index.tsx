@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import {
-  AnchorLink,
   Checkbox,
   ChipGroup,
   ChipItem,
@@ -10,6 +9,7 @@ import {
   Field,
   FirebaseRepo,
   GoogleLoginButton,
+  HrefLink,
   Page,
   Paragraph,
   Title,
@@ -120,9 +120,7 @@ const Login = () => {
 
             <div className={styles.rememberMe}>
               <Checkbox label={'Remember me'} />
-              <AnchorLink href={'/forgot-password'}>
-                Forgot password?
-              </AnchorLink>
+              <HrefLink href={'/forgot-password'}>Forgot password?</HrefLink>
             </div>
 
             <EmailPasswordLoginButton
@@ -137,7 +135,7 @@ const Login = () => {
 
             <div className={styles.noAccount}>
               <Paragraph>No account yet?</Paragraph>
-              <AnchorLink href={'/register'}>Create one here.</AnchorLink>
+              <HrefLink href={'/register'}>Create one here.</HrefLink>
             </div>
           </div>
         </section>

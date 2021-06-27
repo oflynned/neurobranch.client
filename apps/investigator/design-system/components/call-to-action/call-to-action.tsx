@@ -1,8 +1,7 @@
-import { FC } from 'react';
-import { Card, Heading, Paragraph } from '../../building-blocks';
 import Image from 'next/image';
-
-import styles from './style.module.scss';
+import { FC } from 'react';
+import styled from 'styled-components';
+import { Card, Heading, Paragraph } from '../../building-blocks';
 
 type CallToActionProps = {
   title: string;
@@ -13,6 +12,28 @@ type CallToActionProps = {
   }[];
 };
 
+const Layout = styled.div`
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+`;
+
+const BackgroundCard = styled(Card)(
+  ({ theme }) => `
+  border-radius: ${theme.spacing.sm}px;
+  z-index: 0;
+`,
+);
+
+const ForegroundCard = styled(Card)(
+  ({ theme }) => `
+  border-radius: ${theme.spacing.sm}px;
+  z-index: 10;
+  margin-left: -15%;
+  margin-top: 50%;
+`,
+);
+
 export const CallToAction: FC<CallToActionProps> = ({
   title,
   subtitle,
@@ -21,34 +42,30 @@ export const CallToAction: FC<CallToActionProps> = ({
   const [foreground, background] = images;
 
   return (
-    <div className={styles.callToAction}>
-      <div className={styles.cards}>
-        <Card>
+    <>
+      <Layout>
+        <BackgroundCard shadow>
           <Image
             src={background.src}
             alt={background.alt}
             width={192}
             height={192}
           />
-        </Card>
+        </BackgroundCard>
 
-        <div className={styles.card}>
-          <Card>
-            <Image
-              src={foreground.src}
-              alt={foreground.alt}
-              width={192}
-              height={192}
-            />
-          </Card>
-        </div>
-      </div>
-      <div className={styles.heading}>
-        <Heading>{title}</Heading>
-      </div>
-      <div className={styles.description}>
-        <Paragraph>{subtitle}</Paragraph>
-      </div>
-    </div>
+        <ForegroundCard shadow>
+          <Image
+            src={foreground.src}
+            alt={foreground.alt}
+            width={192}
+            height={192}
+          />
+        </ForegroundCard>
+      </Layout>
+      <Heading centre margin={{ top: 'xl' }}>
+        {title}
+      </Heading>
+      <Paragraph>{subtitle}</Paragraph>
+    </>
   );
 };

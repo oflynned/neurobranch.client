@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import styles from './style.module.scss';
+import styled from 'styled-components';
+import { BaseView } from '../view';
 
-export const Col: FC = ({ children }) => (
-  <div className={styles.column}>{children}</div>
-);
+export const Col = styled(BaseView)`
+  flex-direction: column;
+`;

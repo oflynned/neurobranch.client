@@ -1,5 +1,15 @@
 import { FC } from 'react';
-import { Button, Heading, NavBar, Page, Title } from '../../design-system';
+import {
+  Button,
+  Card,
+  Col,
+  Heading,
+  NavBar,
+  Page,
+  Paragraph,
+  Subtitle,
+  Title,
+} from '../../design-system';
 import { useAccount } from '../../providers/auth/use-account.hook';
 import styles from './style.module.scss';
 
@@ -18,37 +28,48 @@ const Index = () => {
         </div>
         <Content>
           <Title>Dashboard</Title>
+          <Subtitle>1 Jan 2020</Subtitle>
 
-          <div>
-            <Heading>Hey {account.name}</Heading>
-          </div>
+          <Card margin={{ top: 'md', bottom: 'md' }} width={'512px'}>
+            <Col>
+              <Heading>Name</Heading>
+              <Paragraph>{account.name}</Paragraph>
 
-          <div>
-            <Button
-              text={'Copy uid'}
-              onClick={async () => navigator.clipboard.writeText(uid)}
-            />
+              <Heading>Email</Heading>
+              <Paragraph>{account.email}</Paragraph>
 
-            <Button
-              text={'Copy jwt'}
-              onClick={async () => navigator.clipboard.writeText(jwt)}
-            />
+              <Heading>Account</Heading>
+              <Paragraph>{account.__typename}</Paragraph>
+            </Col>
+          </Card>
 
-            <Button
-              text={'Copy headers'}
-              onClick={async () => {
-                const data = JSON.stringify(
-                  {
-                    Authorization: `Bearer ${jwt}`,
-                    'x-firebase-uid': uid,
-                  },
-                  null,
-                  2,
-                );
-                await navigator.clipboard.writeText(data);
-              }}
-            />
-          </div>
+          <Button
+            margin={{ top: 'md' }}
+            text={'Copy uid'}
+            onClick={async () => navigator.clipboard.writeText(uid)}
+          />
+
+          <Button
+            margin={{ top: 'md' }}
+            text={'Copy jwt'}
+            onClick={async () => navigator.clipboard.writeText(jwt)}
+          />
+
+          <Button
+            margin={{ top: 'md' }}
+            text={'Copy headers'}
+            onClick={async () => {
+              const data = JSON.stringify(
+                {
+                  Authorization: `Bearer ${jwt}`,
+                  'x-firebase-uid': uid,
+                },
+                null,
+                2,
+              );
+              await navigator.clipboard.writeText(data);
+            }}
+          />
         </Content>
       </div>
     </Page>

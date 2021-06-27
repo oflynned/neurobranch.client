@@ -1,11 +1,21 @@
-import { FC } from 'react';
+import styled, { css } from 'styled-components';
+import { BaseProps, BaseView } from '../view';
+import { getSpacing } from '../view/view';
 
-import styles from './style.module.scss';
+interface Props extends BaseProps {
+  shadow?: boolean;
+}
 
-export const Card: FC = ({ children }) => {
-  return (
-    <div className={styles.card}>
-      <div className={styles.content}>{children}</div>
-    </div>
-  );
+export const Card = styled(BaseView)<Props>(
+  ({ theme, shadow, padding }) => css`
+    padding: ${padding ? getSpacing(theme, padding) : theme.spacing.md + 'px'};
+    border-radius: ${theme.spacing.xs}px;
+    background: white;
+    box-shadow: ${shadow ? theme.shadow.lg : 'none'};
+    border: ${shadow ? 'none' : `1px solid ${theme.colours.border}`};
+  `,
+);
+
+Card.defaultProps = {
+  shadow: false,
 };
