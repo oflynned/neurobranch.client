@@ -22,7 +22,6 @@ export const GoogleLoginButton: FC<Props> = ({
 }) => {
   return (
     <Button
-      fill={'MATCH_PARENT'}
       icon={'/static/images/google-icon.svg'}
       text={label}
       onClick={async () => {

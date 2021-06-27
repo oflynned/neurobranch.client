@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { Button } from '../../../index';
-import { FirebaseRepo } from './firebase.repo';
 import {
   CredentialSignInException,
   EmailTooShortException,
   PasswordTooShortException,
 } from './exceptions';
+import { FirebaseRepo } from './firebase.repo';
 
 interface Props {
   label: string;
@@ -26,7 +26,7 @@ export const EmailPasswordLoginButton: FC<Props> = ({
 }) => {
   return (
     <Button
-      fill={'MATCH_PARENT'}
+      fill={'FILL_PARENT'}
       text={label}
       onClick={async () => {
         if (email?.length < 3) {
@@ -37,7 +37,9 @@ export const EmailPasswordLoginButton: FC<Props> = ({
           throw new PasswordTooShortException();
         }
 
-        await onClick();
+        if (onClick) {
+          await onClick();
+        }
 
         try {
           await repo.signInWithCredentials(email, password);
