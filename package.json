@@ -27,10 +27,10 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.12.13",
-    "@babel/preset-env": "7.12.13",
-    "@babel/preset-react": "7.12.13",
-    "@babel/preset-typescript": "7.12.13",
+    "@babel/core": "7.24.4",
+    "@babel/preset-env": "7.24.4",
+    "@babel/preset-react": "7.24.1",
+    "@babel/preset-typescript": "7.24.1",
     "@emotion/babel-plugin": "11.2.0",
     "@graphql-codegen/cli": "1.21.5",
     "@graphql-codegen/introspection": "1.18.2",
